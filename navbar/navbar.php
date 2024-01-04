@@ -1,9 +1,9 @@
-<?php 
-    require_once '../controller/main.php';
+<?php
+require_once '../controller/main.php';
 
-    if(isset($_COOKIE['SPKehamilan'])) {
-        $user = cari_user();
-    }
+if (isset($_COOKIE['SPKehamilan'])) {
+    $user = cari_user();
+}
 ?>
 
 <nav class="navbar navbar-expand-lg">
@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active text-white fw-semibold" aria-current="page">
+                    <a href="../user" class="nav-link active text-white fw-semibold" aria-current="page">
                         Sistem Pakar Diagnosis Penyakit Pada Ibu Hamil</a>
                 </li>
             </ul>

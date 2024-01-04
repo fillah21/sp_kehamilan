@@ -236,8 +236,19 @@
                                     </label>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-primary ms-5 mt-3 px-4"
-                                style="border-radius: 15px;">Submit</button>
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-primary ms-5 mt-3 px-4"
+                                        style="border-radius: 15px;">Submit</button>
+                                </div>
+                                <div class="col-sm-2 mt-3">
+                                    <a href="../login.php" class=" text-dark" type="button" style="background: none;">
+                                        Kembali ke Login
+                                    </a>
+                                </div>
+                            </div>
+
                         </form>
                     </div>
                 </div>

@@ -97,6 +97,15 @@
     color: #ffffff;
     text-decoration: none;
   }
+
+  .content .contents .delete{
+    border: solid black 1px;
+    border-radius: 12px;
+    padding: 5px 17px;
+    background: rgb(250, 30, 30);
+    color: #ffffff;
+    text-decoration: none;
+  }
   .tabel{
     border: solid black 2px;
     padding: 17px;

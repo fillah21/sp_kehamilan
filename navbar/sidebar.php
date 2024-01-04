@@ -1,7 +1,7 @@
-<?php 
-    require_once '../controller/main.php';
+<?php
+require_once '../controller/main.php';
 
-    validasi_admin();
+validasi_admin();
 ?>
 
 <div class="sidebar" id="side_nav">
@@ -11,6 +11,9 @@
             <span class="text-white ms-4 fs-5">
                 <?= $user['nama']; ?>
             </span>
+            <div class="ms-4 mt-2">
+                <a class="text-decoration-none text-secondary" href="../menu/profil.php">Profil</a>
+            </div>
         </div>
         <!--PROFIL SELESAI-->
 
