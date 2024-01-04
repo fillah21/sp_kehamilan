@@ -9,7 +9,7 @@ if (isset($_COOKIE['SPKehamilan'])) {
     exit;
 }
 
-if (isset($_POST["login"])) {
+if (isset($_POST["submit_login"])) {
     if (login($_POST) == 1) {
         $error = true;
     }
@@ -122,6 +122,7 @@ if (isset($_POST["login"])) {
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script src="bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

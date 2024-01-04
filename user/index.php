@@ -1,10 +1,7 @@
 <?php
 session_start();
-require_once('../controller/main.php');
+require_once('../controller/user.php');
 validasi();
-
-$id = dekripsi($_COOKIE['SPKehamilan']);
-$user = query("SELECT * FROM user WHERE iduser = $id")[0];
 
 ?>
 
@@ -34,7 +31,7 @@ $user = query("SELECT * FROM user WHERE iduser = $id")[0];
 
         <!-- navbar -->
         <?php
-        require_once('../navbar/navbar.html');
+        require_once('../navbar/navbar.php');
         ?>
         <!-- navbar selesai -->
 
@@ -58,7 +55,7 @@ $user = query("SELECT * FROM user WHERE iduser = $id")[0];
                 <div class="contents px-3 py-3 text-center justify-content-center">
                     <?php
                     if ($user['level'] === "User") {
-                        echo '<h4 class="text-dark text-center">User</h4>';
+                        echo '<h4 class="text-dark text-center">'. $user['nama'] . '</h4>';
                     } else {
                         echo '<h4 class="text-dark text-center">Admin</h4>';
                     }

@@ -70,6 +70,14 @@ function dekripsi($kata)
 }
 // Fungsi dekripsi
 
+function cari_user() {
+    $id = dekripsi($_COOKIE['SPKehamilan']);
+
+    $user = query("SELECT * FROM user WHERE iduser = $id")[0];
+    
+    return $user;
+}
+
 // Fungsi validasi user
 function validasi()
 {
@@ -124,4 +132,5 @@ function validasi_admin()
     }
 }
 // Fungsi validasi admin selesai
+
 ?>

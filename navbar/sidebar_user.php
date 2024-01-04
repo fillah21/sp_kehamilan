@@ -4,7 +4,7 @@
         <div class="profil pt-4">
 
             <span class="text-white ms-4 fs-5">
-                User
+                <?= $user['nama']; ?>
             </span>
         </div>
         <!--PROFIL SELESAI-->

@@ -1,3 +1,11 @@
+<?php 
+    require_once '../controller/main.php';
+
+    if(isset($_COOKIE['SPKehamilan'])) {
+        $user = cari_user();
+    }
+?>
+
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"

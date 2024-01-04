@@ -124,8 +124,8 @@ function register_user($data)
 
     $nama = htmlspecialchars($data['nama']);
     $username = strtolower(stripslashes($data["username"]));
-    $password = mysqli_real_escape_string($conn, $data["pwd"]);
-    $password2 = mysqli_real_escape_string($conn, $data["pwd2"]);
+    $password = mysqli_real_escape_string($conn, $data["password"]);
+    $password2 = mysqli_real_escape_string($conn, $data["password2"]);
     $email = htmlspecialchars($data['email']);
     $level = "User";
 
@@ -170,7 +170,7 @@ function register_user($data)
 
 
     //jika password sama, masukkan data ke database
-    mysqli_query($conn, "INSERT INTO user VALUES (NULL, '$nama', '$username', '$password', '$email', '$level')");
+    mysqli_query($conn, "INSERT INTO user VALUES (NULL, '$username', '$password', '$nama', '$email', '$level')");
 
     return mysqli_affected_rows($conn);
 }

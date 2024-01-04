@@ -23,7 +23,7 @@
     <div class="content">
         <!-- navbar -->
         <?php
-        require_once('../navbar/navbar.html');
+        require_once('../navbar/navbar.php');
         ?>
         <!-- navbar selesai -->
 

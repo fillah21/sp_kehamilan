@@ -7,7 +7,7 @@ session_destroy();
 
 //menghapus cookie
 // setcookie('key cookie', ''(dikosongkan), 'waktu yang sudah lalu')
-setcookie('mataRara', '', time() - 3600);
+setcookie('SPKehamilan', '', time() - 3600);
 
 header("Location: login.php");
 exit;
