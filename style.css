@@ -1,0 +1,126 @@
+* {
+    font-family: "Chakra Petch", sans-serif;
+  }
+  
+  body {
+    background: white;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  
+  .content {
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+
+  /* sidebar */
+  .sidebar {
+    background: black;
+    min-width: 215px;
+    max-width: 215px;
+    transition: all ease-in 0.3s;
+    min-height: 100vh;
+  }
+  hr.hr-color {
+    color: #272247;
+    opacity: 1;
+  }
+  .sidebar ul {
+    padding: 0 11px;
+  }
+  .sidebar li {
+    margin: 7px 0;
+  }
+  .sidebar li a {
+    color: white;
+    padding: 8px 5px;
+    font-size: 14px;
+    margin-left: 0;
+  }
+  .sidebar li a.text-center {
+    border: solid rgb(39, 34, 71, 0.5) 0.3px;
+    border-radius: 8px;
+    padding: 5px 0;
+  }
+  .sidebar li i {
+    margin-right: 7px;
+  }
+  .content-side{
+    position: fixed;
+    margin-top: 60px;
+  }
+  .sidebar li a:hover{
+    background: gray;
+    border-radius: 12px;
+  }
+  /* sidebar selesai */
+
+
+  /* navbar */
+  .navbar{
+    z-index: 1;
+    display: flex;
+    position: fixed;
+    width: 100%;
+  }
+  .content .navbar button {
+    width: 30px;
+    height: 30px;
+    background-color: white;
+  }
+  .content .navbar span {
+    margin: -2px -25px;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+  }
+  .content .navbar {
+    background: gray;
+  }
+  .content .navbar li a {
+    margin-top: 3px;
+  }
+  /* navbar selesai */
+  
+  /* isi konten */
+  .contents{
+    width: 100%;
+    margin-top: 60px;
+  }
+  .content .contents a {
+    border: solid black 1px;
+    border-radius: 12px;
+    padding: 5px 17px;
+    background: rgb(30, 30, 250);
+    color: #ffffff;
+    text-decoration: none;
+  }
+  .tabel{
+    border: solid black 2px;
+    padding: 17px;
+  }
+  .contents .tabel table thead{
+    background-color: #272247;
+  }
+  .box{
+    border: black solid 2px;
+    border-radius: 12px;
+    height: 100%;
+  }
+  .box1{
+    border: black solid 2px;
+    border-radius: 12px;
+    padding: 10px;
+  }
+  .box2{
+    border: black solid 2px;
+    padding: 10px;
+    margin: 20px 50px;
+  }
+  .contents input{
+    border-color: black;
+  }
+
+  /* isi konten selesai */
