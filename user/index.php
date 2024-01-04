@@ -53,13 +53,7 @@ validasi();
 
                 <!-- konten -->
                 <div class="contents px-3 py-3 text-center justify-content-center">
-                    <?php
-                    if ($user['level'] === "User") {
-                        echo '<h4 class="text-dark text-center">'. $user['nama'] . '</h4>';
-                    } else {
-                        echo '<h4 class="text-dark text-center">Admin</h4>';
-                    }
-                    ?>
+                    <h4 class="text-dark text-center"><?= $user['nama']; ?></h4>
                 </div>
                 <!-- konten selesai -->
             </div>
@@ -73,6 +67,45 @@ validasi();
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script src="bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+<?php
+if (isset($_SESSION["berhasil"])) {
+    $pesan = $_SESSION["berhasil"];
+
+    echo "
+              <script>
+                Swal.fire(
+                  'Berhasil!',
+                  '$pesan',
+                  'success'
+                )
+              </script>
+          ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+
+} elseif (isset($_SESSION['gagal'])) {
+    $pesan = $_SESSION["gagal"];
+
+    echo "
+            <script>
+                Swal.fire(
+                    'Gagal!',
+                    '$pesan',
+                    'error'
+                )
+            </script>
+        ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+}
+
+?>

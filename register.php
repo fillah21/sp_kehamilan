@@ -33,6 +33,7 @@
             <div class="container-sm" style="width: 550px; padding: 25px;">
                 <h4 class="mb-5">Registrasi</h4>
                 <form method="post" action="">
+                    <input type="hidden" name="level" value="User">
                     <div class="mb-3">
                         <input type="text" style="border-color: black;" class="form-control" placeholder="Nama" name="nama">
                     </div>
@@ -71,7 +72,7 @@
 
 <?php 
 if(isset($_POST['register'])) {
-    if (register_user($_POST) > 0) {
+    if (register($_POST) > 0) {
       $_SESSION["berhasil"] = "Registrasi Berhasil!";
         echo "
             <script>

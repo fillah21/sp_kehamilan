@@ -1,9 +1,15 @@
+<?php 
+    require_once '../controller/main.php';
+
+    validasi_admin();
+?>
+
 <div class="sidebar" id="side_nav">
     <!--PROFIL-->
     <div class="content-side">
         <div class="profil pt-4">
             <span class="text-white ms-4 fs-5">
-                Admin
+                <?= $user['nama']; ?>
             </span>
         </div>
         <!--PROFIL SELESAI-->

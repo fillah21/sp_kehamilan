@@ -124,6 +124,11 @@ function validasi_admin()
                 document.location.href='../logout.php';
               </script>";
         exit;
+    } elseif ($cek['level'] == "User") {
+        echo "<script>
+                document.location.href='../user/index.php';
+              </script>";
+        exit;
     } elseif ($cek['level'] !== "Admin") {
         echo "<script>
                 document.location.href='../logout.php';

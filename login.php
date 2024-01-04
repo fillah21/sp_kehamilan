@@ -75,7 +75,7 @@ if (isset($_POST["submit_login"])) {
 
                         <div class="mt-3 row">
                             <div class="col-sm-6">
-                                <a href="register.php">Sign In</a>
+                                <a href="register.php">Sign Up</a>
                             </div>
                             <div class="col-sm-6 d-flex justify-content-end">
                                 <a href="diagnosa/umum.php">Masuk Sebagai Umum</a>

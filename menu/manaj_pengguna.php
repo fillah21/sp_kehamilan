@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    require_once '../controller/user.php';
+
+    $data = query("SELECT * FROM user");
+?>
+
 <html lang="en">
 
 <head>
@@ -21,7 +28,7 @@
     <div class="content">
         <!-- navbar -->
         <?php
-        require_once('../navbar/navbar.html');
+        require_once('../navbar/navbar.php');
         ?>
         <!-- navbar selesai -->
 
@@ -29,7 +36,7 @@
             <div class="d-flex">
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.html');
+                require_once('../navbar/sidebar.php');
                 ?>
                 <!-- sidebar selesai -->
 
@@ -57,38 +64,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            nama
-                                        </td>
-                                        <td>
-                                            email
-                                        </td>
-                                        <td>
-                                            admin
-                                        </td>
-                                        <td>
-                                            <a href="../edit/pengguna.php">Edit</a> | <button type="button"
-                                                class="btn btn-danger" style="border-radius: 12px; padding: 2px 17px;"
-                                                id="delete">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            nama
-                                        </td>
-                                        <td>
-                                            email
-                                        </td>
-                                        <td>
-                                            user
-                                        </td>
-                                        <td>
-                                            <a href="edit_pengguna.php">Edit</a> | <button type="button"
-                                                class="btn btn-danger" style="border-radius: 12px; padding: 2px 17px;"
-                                                id="delete">Delete</button>
-                                        </td>
-                                    </tr>
+                                    <?php  
+                                        $i = 1;
+                                        foreach($data as $d) :
+                                            $id_enkrip = enkripsi($d['iduser']);
+                                    ?>
+                                        <tr>
+                                            <td>
+                                                <?= $d['nama']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $d['email']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $d['level']; ?>
+                                            </td>
+                                            <td>
+                                                <a href="../edit/pengguna.php?id=<?= $id_enkrip; ?>">Edit</a> | <a
+                                                    class="btn btn-danger" style="border-radius: 12px; padding: 2px 17px;"
+                                                    id="delete" onclick="confirmDelete(<?= $d['iduser']; ?>)">Delete</a>
+                                            </td>
+                                        </tr>
+                                    <?php 
+                                        $i++;
+                                        endforeach;
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -109,11 +109,98 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function () {
-            $("#example").DataTable();
+            $('#example').DataTable();
         });
+
+        function confirmDelete(id) {
+            // Menampilkan Sweet Alert dengan tombol Yes dan No
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus data?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                focusCancel: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
+                    $.ajax({
+                        url: '../controller/user.php',
+                        type: 'POST',
+                        data: {
+                        action: 'delete',
+                        id: id
+                    },
+                    success: function(response) {
+                        // Menampilkan pesan sukses jika data berhasil dihapus 
+                        Swal.fire({
+                            icon : 'success',
+                            title: 'Data User Berhasil Dihapus!',
+                            confirmButtonText: 'Ok',
+                            }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                document.location.href='manaj_pengguna.php';
+                            }
+                        })
+                    },
+                    error: function(xhr, status, error) {
+                    // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Terjadi kesalahan dalam menghapus data: ' + error,
+                            icon: 'error'
+                        });
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // Menampilkan pesan jika tombol No diklik
+                    Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
+                }
+            });
+        }
     </script>
 </body>
 
 </html>
+
+<?php
+if (isset($_SESSION["berhasil"])) {
+    $pesan = $_SESSION["berhasil"];
+
+    echo "
+              <script>
+                Swal.fire(
+                  'Berhasil!',
+                  '$pesan',
+                  'success'
+                )
+              </script>
+          ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+
+} elseif (isset($_SESSION['gagal'])) {
+    $pesan = $_SESSION["gagal"];
+
+    echo "
+            <script>
+                Swal.fire(
+                    'Gagal!',
+                    '$pesan',
+                    'error'
+                )
+            </script>
+        ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+}
+?>

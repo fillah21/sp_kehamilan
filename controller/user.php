@@ -118,7 +118,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
 
 // Fungsi Registrasi User
-function register_user($data)
+function register($data)
 {
     global $conn;
 
@@ -127,7 +127,7 @@ function register_user($data)
     $password = mysqli_real_escape_string($conn, $data["password"]);
     $password2 = mysqli_real_escape_string($conn, $data["password2"]);
     $email = htmlspecialchars($data['email']);
-    $level = "User";
+    $level = htmlspecialchars($data['level']);
 
     $result = mysqli_query($conn, "SELECT username FROM user WHERE username = '$username'") or die(mysqli_error($conn));
     if (mysqli_fetch_assoc($result)) {
@@ -176,64 +176,6 @@ function register_user($data)
 }
 // Fungsi Registrasi User Selesai
 
-// Fungsi Registrasi Admin
-function register_admin($data)
-{
-    global $conn;
-
-    $nama = htmlspecialchars($data['nama']);
-    $username = strtolower(stripslashes($data["username"]));
-    $password = mysqli_real_escape_string($conn, $data["pwd"]);
-    $password2 = mysqli_real_escape_string($conn, $data["pwd2"]);
-    $email = htmlspecialchars($data['email']);
-    $level = "Admin";
-
-    $result = mysqli_query($conn, "SELECT username FROM user WHERE username = '$username'") or die(mysqli_error($conn));
-    if (mysqli_fetch_assoc($result)) {
-        echo "<script>
-                    Swal.fire(
-                        'Gagal!',
-                        'Username sudah digunakan, silahkan pakai username lain',
-                        'error'
-                    )
-                </script>";
-        exit();
-    }
-
-    $result = mysqli_query($conn, "SELECT email FROM user WHERE email = '$email'") or die(mysqli_error($conn));
-    if (mysqli_fetch_assoc($result)) {
-        echo "<script>
-                    Swal.fire(
-                        'Gagal!',
-                        'Email sudah digunakan, silahkan pakai email lain',
-                        'error'
-                    )
-                </script>";
-        exit();
-    }
-
-    if ($password !== $password2) {
-        echo "<script>
-                    Swal.fire(
-                        'Gagal!',
-                        'Password tidak sesuai',
-                        'error'
-                    )
-                </script>";
-        exit();
-    }
-
-
-    //enkripsi password
-    $password = password_hash($password2, PASSWORD_DEFAULT);
-
-    //jika password sama, masukkan data ke database
-    mysqli_query($conn, "INSERT INTO user VALUES (NULL, '$nama', '$username', '$password', '$email', '$level')");
-
-
-    return mysqli_affected_rows($conn);
-}
-// Fungsi Registrasi Admin selesai
 
 // Fungsi Edit Data Pengguna
 function update($data)
@@ -246,17 +188,10 @@ function update($data)
 
     $nama = htmlspecialchars($data['nama']);
     $username = strtolower(stripslashes($data["username"]));
-    $password = mysqli_real_escape_string($conn, $data["pwd"]);
-    $password2 = mysqli_real_escape_string($conn, $data["pwd2"]);
+    $password = mysqli_real_escape_string($conn, $data["password"]);
+    $password2 = mysqli_real_escape_string($conn, $data["password2"]);
     $email = htmlspecialchars($data['email']);
-    $level = "Admin";
-
-    if (isset($data['oldlevel'])) {
-        $level = $data['oldlevel'];
-    } else {
-        $level = $data['level'];
-    }
-
+    $level = htmlspecialchars($data['level']);
 
     if ($username !== $oldusername) {
         $result = mysqli_query($conn, "SELECT username FROM user WHERE username = '$username'");

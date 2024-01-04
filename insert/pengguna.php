@@ -1,3 +1,8 @@
+<?php 
+    session_start();
+    require_once '../controller/user.php';
+?>
+
 <html lang="en">
 
 <head>
@@ -21,7 +26,7 @@
     <div class="content">
         <!-- navbar -->
         <?php
-        require_once('../navbar/navbar.html');
+        require_once('../navbar/navbar.php');
         ?>
         <!-- navbar selesai -->
 
@@ -29,7 +34,7 @@
             <div class="d-flex">
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.html');
+                require_once('../navbar/sidebar.php');
                 ?>
                 <!-- sidebar selesai -->
 
@@ -47,32 +52,32 @@
                             <div class="mb-3 mt-4 row ms-5">
                                 <label for="inputName" class="col-sm-3 me-0 col-form-label">Nama :</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="inputName">
+                                    <input type="text" class="form-control" id="inputName" name="nama">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Email :</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="inputEmail">
+                                    <input type="email" class="form-control" id="inputEmail" name="email">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputUsername" class="col-sm-3 me-0 col-form-label">Username :</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="inputUsername">
+                                    <input type="text" class="form-control" id="inputUsername" name="username">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputPassword" class="col-sm-3 me-0 col-form-label">Password :</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="inputPassword">
+                                    <input type="password" class="form-control" id="inputPassword" name="password">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputKPassword" class="col-sm-3 me-0 col-form-label">Konfirmasi Password
                                     :</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="inputKPassword">
+                                    <input type="password" class="form-control" id="inputKPassword" name="password2">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
@@ -80,13 +85,13 @@
                                     :</label>
                                 <div class="col-sm-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="admin" id="admin">
+                                        <input class="form-check-input" type="radio" name="level" id="admin" value="Admin">
                                         <label class="form-check-label" for="admin">
                                             Admin
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="user" id="user" checked>
+                                        <input class="form-check-input" type="radio" name="level" id="user" checked value="User">
                                         <label class="form-check-label" for="user">
                                             User
                                         </label>
@@ -95,8 +100,8 @@
                             </div>
 
                             <div class="d-flex justify-content-end me-5">
-                                <button type="button" class="btn btn-primary mt-3 px-4"
-                                    style="border-radius: 15px;">Submit</button>
+                                <button type="submit" class="btn btn-primary mt-3 px-4"
+                                    style="border-radius: 15px;" name="register">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -114,13 +119,29 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#example").DataTable();
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+<?php 
+if(isset($_POST['register'])) {
+    if (register($_POST) > 0) {
+      $_SESSION["berhasil"] = "Registrasi Berhasil!";
+        echo "
+            <script>
+              document.location.href='../menu/manaj_pengguna.php';
+            </script>
+        ";
+    } else {
+      echo "
+          <script>
+              Swal.fire(
+                'Gagal!',
+                'Registrasi Gagal!',
+                'error'
+            )
+          </script>
+      ";
+    }
+}
