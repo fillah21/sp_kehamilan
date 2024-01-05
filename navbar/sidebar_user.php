@@ -1,3 +1,7 @@
+<?php 
+    validasi();
+?>
+
 <div class="sidebar" id="side_nav">
     <div class="content-side">
         <!--PROFIL-->
