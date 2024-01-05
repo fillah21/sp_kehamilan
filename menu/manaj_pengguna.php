@@ -65,8 +65,7 @@ $data = query("SELECT * FROM user");
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $i = 1;
-                                    foreach ($data as $d):
+                                        foreach ($data as $d):
                                         $id_enkrip = enkripsi($d['iduser']);
                                         ?>
                                         <tr>
@@ -86,8 +85,7 @@ $data = query("SELECT * FROM user");
                                             </td>
                                         </tr>
                                         <?php
-                                        $i++;
-                                    endforeach;
+                                        endforeach;
                                     ?>
                                 </tbody>
                             </table>

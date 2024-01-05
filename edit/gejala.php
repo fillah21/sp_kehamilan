@@ -1,3 +1,11 @@
+<?php 
+    session_start();
+    require_once '../controller/gejala.php';
+
+    $id = dekripsi($_GET['id']);
+    $data = query("SELECT * FROM gejala WHERE idgejala = $id")[0];
+?>
+
 <html lang="en">
 
 <head>
@@ -44,17 +52,20 @@
 
 
                         <form method="post" action="">
+                            <input type="hidden" name="idgejala" value="<?= $id; ?>">
+                            <input type="hidden" name="oldgejala" value="<?= $data['nama_gejala']; ?>">
+
                             <div class="mb-3 mt-4 row ms-5">
                                 <label for="inputKode" class="col-sm-2 me-0 col-form-label">Kode :</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputKode">
+                                    <input type="text" class="form-control" id="inputKode" value="<?= $data['kode_gejala']; ?>" readonly>
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputGejala" class="col-sm-2 me-0 col-form-label">Gejala :</label>
                                 <div class="col-sm-8">
                                     <textarea type="text" style="border-color: black;" class="form-control"
-                                        id="inputGejala"></textarea>
+                                        id="inputGejala" name="nama_gejala"><?= $data['nama_gejala']; ?></textarea>
                                 </div>
                             </div>
 
@@ -85,13 +96,29 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#example").DataTable();
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+<?php 
+  if(isset($_POST['submit'])) {
+    if (update($_POST) > 0) {
+      $_SESSION["berhasil"] = "Data Gejala Berhasil Diubah!";
+
+      echo "
+          <script>
+            document.location.href='../menu/manaj_gejala.php';
+          </script>
+      ";
+    } else {
+      $_SESSION["gagal"] = "Data Gejala Gagal Diubah!";
+
+      echo "
+          <script>
+            document.location.href='gejala.php';
+          </script>
+      ";
+    }
+  }
+?>

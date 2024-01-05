@@ -2,7 +2,7 @@
     session_start();
     require_once '../controller/penyakit.php';
 
-    $data = query("SELECT * FROM penyakit ORDER BY kode_penyakit ASC");
+    $data = query("SELECT * FROM penyakit ORDER BY CAST(SUBSTRING(kode_penyakit, 2) AS UNSIGNED)");
 ?>
 
 <html lang="en">
@@ -65,7 +65,6 @@
                                 </thead>
                                 <tbody>
                                     <?php 
-                                        $i = 1;
                                         foreach($data as $d) :
                                     ?>
                                         <tr>
@@ -85,7 +84,6 @@
                                             </td>
                                         </tr>
                                     <?php 
-                                        $i++;
                                         endforeach;
                                     ?>
                                 </tbody>
