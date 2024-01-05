@@ -1,8 +1,8 @@
-<?php 
-    session_start();
-    require_once '../controller/user.php';
+<?php
+session_start();
+require_once '../controller/user.php';
 
-    $data = query("SELECT * FROM user");
+$data = query("SELECT * FROM user");
 ?>
 
 <html lang="en">
@@ -64,11 +64,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php  
-                                        $i = 1;
-                                        foreach($data as $d) :
-                                            $id_enkrip = enkripsi($d['iduser']);
-                                    ?>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($data as $d):
+                                        $id_enkrip = enkripsi($d['iduser']);
+                                        ?>
                                         <tr>
                                             <td>
                                                 <?= $d['nama']; ?>
@@ -80,14 +80,14 @@
                                                 <?= $d['level']; ?>
                                             </td>
                                             <td>
-                                                <a href="../edit/pengguna.php?id=<?= $id_enkrip; ?>">Edit</a> | <a
-                                                    class="btn btn-danger" style="border-radius: 12px; padding: 2px 17px;"
-                                                    id="delete" onclick="confirmDelete(<?= $d['iduser']; ?>)">Delete</a>
+                                                <a href="../edit/pengguna.php?id=<?= $id_enkrip; ?>">Edit</a> | <a href="#"
+                                                    class="delete bg-danger" id="delete"
+                                                    onclick="confirmDelete(<?= $d['iduser']; ?>)">Delete</a>
                                             </td>
                                         </tr>
-                                    <?php 
+                                        <?php
                                         $i++;
-                                        endforeach;
+                                    endforeach;
                                     ?>
                                 </tbody>
                             </table>
@@ -132,33 +132,33 @@
                         url: '../controller/user.php',
                         type: 'POST',
                         data: {
-                        action: 'delete',
-                        id: id
-                    },
-                    success: function(response) {
-                        // Menampilkan pesan sukses jika data berhasil dihapus 
-                        Swal.fire({
-                            icon : 'success',
-                            title: 'Data User Berhasil Dihapus!',
-                            confirmButtonText: 'Ok',
+                            action: 'delete',
+                            id: id
+                        },
+                        success: function (response) {
+                            // Menampilkan pesan sukses jika data berhasil dihapus 
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Data User Berhasil Dihapus!',
+                                confirmButtonText: 'Ok',
                             }).then((result) => {
-                            /* Read more about isConfirmed, isDenied below */
-                            if (result.isConfirmed) {
-                                document.location.href='manaj_pengguna.php';
-                            }
-                        })
-                    },
-                    error: function(xhr, status, error) {
-                    // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'Terjadi kesalahan dalam menghapus data: ' + error,
-                            icon: 'error'
-                        });
-                    }
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                // Menampilkan pesan jika tombol No diklik
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    document.location.href = 'manaj_pengguna.php';
+                                }
+                            })
+                        },
+                        error: function (xhr, status, error) {
+                            // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Terjadi kesalahan dalam menghapus data: ' + error,
+                                icon: 'error'
+                            });
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    // Menampilkan pesan jika tombol No diklik
                     Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
                 }
             });

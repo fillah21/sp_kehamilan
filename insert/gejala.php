@@ -58,9 +58,15 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-end me-5">
-                                <button type="button" class="btn btn-primary mt-3 px-4"
-                                    style="border-radius: 15px;">Submit</button>
+                            <div class="row justify-content-end">
+                                <div class="col-sm-2">
+                                    <a type="button" class="text-dark mt-3 px-4" href="../menu/manaj_gejala.php"
+                                        style="background:none;">Kembali</a>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary mt-3 px-4" style="border-radius: 15px;"
+                                        name="register">Submit</button>
+                                </div>
                             </div>
                         </form>
                     </div>

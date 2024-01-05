@@ -1,9 +1,9 @@
-<?php 
-    session_start();
-    require_once '../controller/user.php';
+<?php
+session_start();
+require_once '../controller/user.php';
 
-    $id = dekripsi($_GET['id']);
-    $data = query("SELECT * FROM user WHERE iduser = $id")[0];
+$id = dekripsi($_GET['id']);
+$data = query("SELECT * FROM user WHERE iduser = $id")[0];
 ?>
 
 <html lang="en">
@@ -60,32 +60,37 @@
                             <div class="mb-3 mt-4 row ms-5">
                                 <label for="inputName" class="col-sm-3 me-0 col-form-label">Nama :</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="inputName" value="<?= $data['nama']; ?>" name="nama">
+                                    <input type="text" class="form-control" id="inputName" value="<?= $data['nama']; ?>"
+                                        name="nama">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputEmail" class="col-sm-3 me-0 col-form-label">Email :</label>
                                 <div class="col-sm-6">
-                                    <input type="email" class="form-control" id="inputEmail" value="<?= $data['email']; ?>" name="email">
+                                    <input type="email" class="form-control" id="inputEmail"
+                                        value="<?= $data['email']; ?>" name="email">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputUsername" class="col-sm-3 me-0 col-form-label">Username :</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="inputUsername" value="<?= $data['username']; ?>" name="username">
+                                    <input type="text" class="form-control" id="inputUsername"
+                                        value="<?= $data['username']; ?>" name="username">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputPassword" class="col-sm-3 me-0 col-form-label">Password :</label>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control" id="inputPassword" value="<?= $data['password']; ?>" name="password">
+                                    <input type="password" class="form-control" id="inputPassword"
+                                        value="<?= $data['password']; ?>" name="password">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputKPassword" class="col-sm-3 me-0 col-form-label">Konfirmasi Password
                                     :</label>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control" id="inputKPassword" value="<?= $data['password']; ?>" name="password2">
+                                    <input type="password" class="form-control" id="inputKPassword"
+                                        value="<?= $data['password']; ?>" name="password2">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
@@ -93,13 +98,19 @@
                                     :</label>
                                 <div class="col-sm-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="level" id="admin" value="Admin" <?php if($data['level'] === 'Admin'){ echo 'checked'; } ?>>
+                                        <input class="form-check-input" type="radio" name="level" id="admin"
+                                            value="Admin" <?php if ($data['level'] === 'Admin') {
+                                                echo 'checked';
+                                            } ?>>
                                         <label class="form-check-label" for="admin">
                                             Admin
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="level" id="user" value="User" <?php if($data['level'] === 'User'){ echo 'checked'; } ?>>
+                                        <input class="form-check-input" type="radio" name="level" id="user" value="User"
+                                            <?php if ($data['level'] === 'User') {
+                                                echo 'checked';
+                                            } ?>>
                                         <label class="form-check-label" for="user">
                                             User
                                         </label>
@@ -107,9 +118,15 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-end me-5">
-                                <button type="submit" class="btn btn-primary mt-3 px-4"
-                                    style="border-radius: 15px;" name="submit">Update</button>
+                            <div class="row justify-content-end">
+                                <div class="col-sm-2">
+                                    <a type="button" class="text-dark mt-3 px-4" href="../menu/manaj_pengguna.php"
+                                        style="background:none; padding: 5px 15px;">Kembali</a>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary mt-3 px-4" style="border-radius: 15px;"
+                                        name="submit">Update</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -132,26 +149,26 @@
 
 </html>
 
-<?php 
-    if(isset($_POST['submit'])) {
-        if (update($_POST) > 0) {
-    
-          $_SESSION["berhasil"] = "Data Pengguna Berhasil Diubah!";
-    
-          echo "
+<?php
+if (isset($_POST['submit'])) {
+    if (update($_POST) > 0) {
+
+        $_SESSION["berhasil"] = "Data Pengguna Berhasil Diubah!";
+
+        echo "
               <script>
                 document.location.href='../menu/manaj_pengguna.php';
               </script>
           ";
-        } else {
-    
-          $_SESSION["gagal"] = "Data Pengguna Gagal Diubah!";
-    
-          echo "
+    } else {
+
+        $_SESSION["gagal"] = "Data Pengguna Gagal Diubah!";
+
+        echo "
               <script>
                 document.location.href='pengguna.php';
               </script>
           ";
-        }
     }
+}
 ?>

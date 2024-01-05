@@ -1,6 +1,6 @@
-<?php 
-    session_start();
-    require_once 'controller/user.php';
+<?php
+session_start();
+require_once 'controller/user.php';
 ?>
 
 <html lang="en">
@@ -35,23 +35,29 @@
                 <form method="post" action="">
                     <input type="hidden" name="level" value="User">
                     <div class="mb-3">
-                        <input type="text" style="border-color: black;" class="form-control" placeholder="Nama" name="nama">
+                        <input type="text" style="border-color: black;" class="form-control" placeholder="Nama"
+                            name="nama">
                     </div>
                     <div class="mb-3">
-                        <input type="text" style="border-color: black;" class="form-control" placeholder="Username" name="username">
+                        <input type="text" style="border-color: black;" class="form-control" placeholder="Username"
+                            name="username">
                     </div>
                     <div class="mb-3">
-                        <input type="password" style="border-color: black;" class="form-control" placeholder="Password" name="password">
+                        <input type="password" style="border-color: black;" class="form-control" placeholder="Password"
+                            name="password">
                     </div>
                     <div class="mb-3">
-                        <input type="password" style="border-color: black;" class="form-control" placeholder="Konfirmasi Password" name="password2">
+                        <input type="password" style="border-color: black;" class="form-control"
+                            placeholder="Konfirmasi Password" name="password2">
                     </div>
                     <div class="mb-3">
-                        <input type="email" style="border-color: black;" class="form-control" placeholder="Email" name="email">
+                        <input type="email" style="border-color: black;" class="form-control" placeholder="Email"
+                            name="email">
                     </div>
-                    
+
                     <div style="display: flex; justify-content: space-between;">
-                        <button type="submit" class="btn btn-primary mt-3 px-4" style="border-radius: 15px;" name="register">Kirim</button>
+                        <button type="submit" class="btn btn-primary mt-2 mb-2 px-4" style="border-radius: 15px;"
+                            name="register">Kirim</button>
                         <p class="text-end mt-3">Sudah Punya akun? <a href="login.php">Login</a></p>
                     </div>
 
@@ -70,17 +76,17 @@
 
 </html>
 
-<?php 
-if(isset($_POST['register'])) {
+<?php
+if (isset($_POST['register'])) {
     if (register($_POST) > 0) {
-      $_SESSION["berhasil"] = "Registrasi Berhasil!";
+        $_SESSION["berhasil"] = "Registrasi Berhasil!";
         echo "
             <script>
               document.location.href='login.php';
             </script>
         ";
     } else {
-      echo "
+        echo "
           <script>
               Swal.fire(
                 'Gagal!',

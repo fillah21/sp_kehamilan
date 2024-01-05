@@ -1,6 +1,6 @@
-<?php 
-    session_start();
-    require_once '../controller/user.php';
+<?php
+session_start();
+require_once '../controller/user.php';
 ?>
 
 <html lang="en">
@@ -85,13 +85,15 @@
                                     :</label>
                                 <div class="col-sm-6">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="level" id="admin" value="Admin">
+                                        <input class="form-check-input" type="radio" name="level" id="admin"
+                                            value="Admin">
                                         <label class="form-check-label" for="admin">
                                             Admin
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="level" id="user" checked value="User">
+                                        <input class="form-check-input" type="radio" name="level" id="user" checked
+                                            value="User">
                                         <label class="form-check-label" for="user">
                                             User
                                         </label>
@@ -99,9 +101,15 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-end me-5">
-                                <button type="submit" class="btn btn-primary mt-3 px-4"
-                                    style="border-radius: 15px;" name="register">Submit</button>
+                            <div class="row justify-content-end">
+                                <div class="col-sm-2">
+                                    <a type="button" class="text-dark mt-3 px-4" href="../menu/manaj_pengguna.php"
+                                        style="background:none;">Kembali</a>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary mt-3 px-4" style="border-radius: 15px;"
+                                        name="register">Submit</button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -124,17 +132,17 @@
 
 </html>
 
-<?php 
-if(isset($_POST['register'])) {
+<?php
+if (isset($_POST['register'])) {
     if (register($_POST) > 0) {
-      $_SESSION["berhasil"] = "Registrasi Berhasil!";
+        $_SESSION["berhasil"] = "Registrasi Berhasil!";
         echo "
             <script>
               document.location.href='../menu/manaj_pengguna.php';
             </script>
         ";
     } else {
-      echo "
+        echo "
           <script>
               Swal.fire(
                 'Gagal!',

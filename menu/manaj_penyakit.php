@@ -1,3 +1,7 @@
+<?php 
+    require_once '../controller/penyakit.php';
+?>
+
 <html lang="en">
 
 <head>

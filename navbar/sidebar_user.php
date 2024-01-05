@@ -6,10 +6,13 @@
     <div class="content-side">
         <!--PROFIL-->
         <div class="profil pt-4">
-
             <span class="text-white ms-4 fs-5">
                 <?= $user['nama']; ?>
             </span>
+
+            <div class="ms-4 mt-2">
+                <a class="text-decoration-none text-secondary" href="">Profil</a>
+            </div>
         </div>
         <!--PROFIL SELESAI-->
 
