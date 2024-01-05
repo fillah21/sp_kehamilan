@@ -1,9 +1,9 @@
-<?php 
-    session_start();
-    require_once '../controller/gejala.php';
+<?php
+session_start();
+require_once '../controller/gejala.php';
 
-    $gejala = query("SELECT * FROM gejala ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
-    // $gejala = query("SELECT * FROM gejala ORDER BY LENGTH(kode_gejala), CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
+$gejala = query("SELECT * FROM gejala ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
+// $gejala = query("SELECT * FROM gejala ORDER BY LENGTH(kode_gejala), CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
 ?>
 
 <html lang="en">
@@ -60,28 +60,35 @@
                                     <tr class="table-secondary">
                                         <th class="text-center" scope="col">Kode Gejala</th>
                                         <th class="text-center" scope="col">Nama Gejala</th>
-                                        <th class="text-center" scope="col">Aksi</th>
+                                        <th class="text-center" scope="col" style="width: 150px;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                        foreach($gejala as $gej) :
-                                    ?>
+                                    <?php
+                                    foreach ($gejala as $gej):
+                                        ?>
                                         <tr>
                                             <td>
                                                 <?= $gej['kode_gejala']; ?>
                                             </td>
-                                            <td>
-                                                <?= $gej['nama_gejala']; ?>
+                                            <td class="truncate">
+                                                <?php
+                                                // Menampilkan deskripsi dengan batasan karakter
+                                                $deskripsi_terbatas = substr($gej['nama_gejala'], 0, 50);
+                                                echo $deskripsi_terbatas;
+                                                if (strlen($gej['nama_gejala']) > 50) {
+                                                    echo '...';
+                                                }
+                                                ?>
                                             </td>
                                             <td>
-                                                <a href="../edit/gejala.php?id=<?= enkripsi($gej['idgejala']); ?>">Edit</a> | <a href="#"
-                                                    class="delete bg-danger" id="delete"
+                                                <a href="../edit/gejala.php?id=<?= enkripsi($gej['idgejala']); ?>">Edit</a>
+                                                | <a href="#" class="delete bg-danger" id="delete"
                                                     onclick="confirmDelete(<?= $gej['idgejala']; ?>)">Delete</a>
                                             </td>
                                         </tr>
-                                    <?php 
-                                        endforeach;
+                                        <?php
+                                    endforeach;
                                     ?>
                                 </tbody>
                             </table>
@@ -162,11 +169,11 @@
 
 </html>
 
-<?php 
-    if(isset($_SESSION["berhasil"])) {
-        $pesan = $_SESSION["berhasil"];
+<?php
+if (isset($_SESSION["berhasil"])) {
+    $pesan = $_SESSION["berhasil"];
 
-        echo "
+    echo "
               <script>
                 Swal.fire(
                   'Berhasil!',
@@ -175,15 +182,15 @@
                 )
               </script>
           ";
-        $_SESSION = [];
-        session_unset();
-        session_destroy();
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
 
 
-    } elseif(isset($_SESSION['gagal'])) {
-        $pesan = $_SESSION["gagal"];
-        
-        echo "
+} elseif (isset($_SESSION['gagal'])) {
+    $pesan = $_SESSION["gagal"];
+
+    echo "
             <script>
                 Swal.fire(
                     'Gagal!',
@@ -192,10 +199,10 @@
                 )
             </script>
         ";
-        $_SESSION = [];
-        session_unset();
-        session_destroy();
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
 
-    }
+}
 
 ?>
