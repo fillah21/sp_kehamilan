@@ -1,3 +1,12 @@
+<?php 
+    session_start();
+    require_once '../controller/penyakit.php';
+
+    $id = dekripsi($_GET['id']);
+
+    $data = query("SELECT * FROM penyakit WHERE idpenyakit = $id")[0];
+?>
+
 <html lang="en">
 
 <head>
@@ -44,23 +53,26 @@
 
 
                         <form method="post" action="">
+                            <input type="hidden" name="idpenyakit" value="<?= $id; ?>">
+                            <input type="hidden" name="oldnama" value="<?= $data['nama_penyakit']; ?>">
+
                             <div class="mb-3 mt-4 row ms-5">
                                 <label for="inputKode" class="col-sm-2 me-0 col-form-label">Kode :</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputKode">
+                                    <input type="text" class="form-control" id="inputKode" name="kode_penyakit" value="<?= $data['kode_penyakit']; ?>" readonly>
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputPenyakit" class="col-sm-2 me-0 col-form-label">Penyakit :</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputPenyakit">
+                                    <input type="text" class="form-control" id="inputPenyakit" name="nama_penyakit" value="<?= $data['nama_penyakit']; ?>">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputDeskripsi" class="col-sm-2 me-0 col-form-label">Deskripsi :</label>
                                 <div class="col-sm-8">
                                     <textarea type="text" style="border-color: black;" class="form-control"
-                                        id="inputDeskripsi"></textarea>
+                                        id="inputDeskripsi" name="deskripsi" rows="10"><?= $data['deskripsi']; ?></textarea>
                                 </div>
                             </div>
 
@@ -90,13 +102,29 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#example").DataTable();
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+<?php 
+  if(isset($_POST['submit'])) {
+    if (update($_POST) > 0) {
+      $_SESSION["berhasil"] = "Data Penyakit Berhasil Diubah!";
+
+      echo "
+          <script>
+            document.location.href='../menu/manaj_penyakit.php';
+          </script>
+      ";
+    } else {
+      $_SESSION["gagal"] = "Data Penyakit Gagal Diubah!";
+
+      echo "
+          <script>
+            document.location.href='penyakit.php';
+          </script>
+      ";
+    }
+  }
+?>

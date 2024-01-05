@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    require_once '../controller/penyakit.php';
+
+    $kode = kode();
+?>
+
 <html lang="en">
 
 <head>
@@ -47,20 +54,20 @@
                             <div class="mb-3 mt-4 row ms-5">
                                 <label for="inputName" class="col-sm-2 me-0 col-form-label">Kode :</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputName">
+                                    <input type="text" class="form-control" id="inputName" value="<?= $kode; ?>" name="kode_penyakit" readonly>
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputEmail" class="col-sm-2 me-0 col-form-label">Penyakit :</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputEmail">
+                                    <input type="text" class="form-control" id="inputEmail" name="nama_penyakit">
                                 </div>
                             </div>
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputUsername" class="col-sm-2 me-0 col-form-label">Deskripsi :</label>
                                 <div class="col-sm-8">
                                     <textarea type="text" style="border-color: black;" class="form-control"
-                                        id="inputUsername"></textarea>
+                                        id="inputUsername" name="deskripsi" rows="10"></textarea>
                                 </div>
                             </div>
 
@@ -71,7 +78,7 @@
                                 </div>
                                 <div class="col-sm-2">
                                     <button type="submit" class="btn btn-primary mt-3 px-4" style="border-radius: 15px;"
-                                        name="register">Submit</button>
+                                        name="submit" >Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -90,13 +97,29 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#example").DataTable();
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+<?php 
+  if(isset($_POST['submit'])) {
+    if (create($_POST) > 0) {
+      $_SESSION["berhasil"] = "Data Penyakit Berhasil Ditambahkan!";
+
+      echo "
+          <script>
+            document.location.href='../menu/manaj_penyakit.php';
+          </script>
+      ";
+    } else {
+      $_SESSION["gagal"] = "Data Penyakit Gagal Ditambahkan!";
+
+      echo "
+          <script>
+            document.location.href='penyakit.php';
+          </script>
+      ";
+    }
+  }
+?>
