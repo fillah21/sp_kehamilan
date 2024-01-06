@@ -106,13 +106,14 @@
           </script>
       ";
     } else {
-      $_SESSION["gagal"] = "Data Gejala Gagal Ditambahkan!";
-
-      echo "
-          <script>
-            document.location.href='gejala.php';
-          </script>
-      ";
+        echo "<script>
+                Swal.fire(
+                    'Gagal!',
+                    'Data Gejala Gagal Ditambahkan',
+                    'error'
+                )
+            </script>";
+        exit();
     }
   }
 ?>

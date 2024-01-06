@@ -124,13 +124,14 @@ if (isset($_POST['submit'])) {
           </script>
       ";
     } else {
-        $_SESSION["gagal"] = "Data Solusi Gagal Diubah!";
-
-        echo "
-          <script>
-            document.location.href='solusi.php';
-          </script>
-      ";
+        echo "<script>
+                Swal.fire(
+                    'Gagal!',
+                    'Data Solusi Gagal Diubah',
+                    'error'
+                )
+            </script>";
+        exit();
     }
 }
 ?>

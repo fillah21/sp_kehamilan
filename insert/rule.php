@@ -1,3 +1,11 @@
+<?php 
+    session_start();
+    require_once '../controller/rule.php';
+
+    $gejala = query("SELECT * FROM gejala WHERE idgejala NOT IN (SELECT DISTINCT idgejala FROM rule) ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
+    $jumlah_gejala = jumlah_data("SELECT * FROM gejala WHERE idgejala NOT IN (SELECT DISTINCT idgejala FROM rule) ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
+?>
+
 <html lang="en">
 
 <head>
@@ -42,38 +50,47 @@
                             </h5>
                         </div>
 
+                        <?php if($jumlah_gejala == 0) : ?>
+                            <h3 class="text-center mt-3">Semua gejala sudah memiliki bobot</h3>
+                        <?php else : ?>
+                            <form method="post" action="">
+                                <div class="mb-3 mt-4 row ms-5">
+                                    <label for="inputPenyakit" class="col-sm-2 me-0 col-form-label">Gejala :</label>
+                                    <div class="col-sm-8">
+                                        <select class="boxc form-control" style="border-color: black;" name="idgejala"
+                                            require>
+                                            <option hidden selected value="">--Pilih Gejala--</option>
+                                            <?php
+                                            foreach ($gejala as $g):
+                                                ?>
+                                                <option value="<?php echo $g['idgejala'] ?>">(<?= $g['kode_gejala']; ?>) <?php echo $g['nama_gejala'] ?>
+                                                </option>
+                                                <?php
+                                            endforeach
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
 
-                        <form method="post" action="">
-                            <div class="mb-3 mt-4 row ms-5">
-                                <label for="inputPenyakit" class="col-sm-2 me-0 col-form-label">Penyakit :</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputPenyakit">
+                                <div class="mb-3 mt-2 row ms-5">
+                                    <label for="inputBobot" class="col-sm-2 me-0 col-form-label">Bobot :</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" step="0.1" max="1" class="form-control" id="inputBobot" name="nilai">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mb-3 mt-2 row ms-5">
-                                <label for="inputGejala" class="col-sm-2 me-0 col-form-label">Gejala :</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputGejala">
-                                </div>
-                            </div>
-                            <div class="mb-3 mt-2 row ms-5">
-                                <label for="inputBobot" class="col-sm-2 me-0 col-form-label">Bobot :</label>
-                                <div class="col-sm-8">
-                                    <input type="number" step="0.1" max="1" class="form-control" id="inputBobot">
-                                </div>
-                            </div>
 
-                            <div class="row justify-content-end">
-                                <div class="col-sm-2">
-                                    <a type="button" class="text-dark mt-3 px-4" href="../menu/manaj_rule.php"
-                                        style="background:none;">Kembali</a>
+                                <div class="row justify-content-end">
+                                    <div class="col-sm-2">
+                                        <a type="button" class="text-dark mt-3 px-4" href="../menu/manaj_rule.php"
+                                            style="background:none;">Kembali</a>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn btn-primary mt-3 px-4" style="border-radius: 15px;"
+                                            name="submit">Submit</button>
+                                    </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <button type="submit" class="btn btn-primary mt-3 px-4" style="border-radius: 15px;"
-                                        name="register">Submit</button>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <!-- konten selesai -->
@@ -89,13 +106,30 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#example").DataTable();
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+<?php
+if (isset($_POST['submit'])) {
+    if (create($_POST) > 0) {
+        $_SESSION["berhasil"] = "Data Rule Berhasil Ditambahkan!";
+
+        echo "
+          <script>
+            document.location.href='../menu/manaj_rule.php';
+          </script>
+      ";
+    } else {
+        echo "<script>
+                Swal.fire(
+                    'Gagal!',
+                    'Data Rule Gagal Ditambahkan',
+                    'error'
+                )
+            </script>";
+        exit();
+    }
+}
+?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 06 Jan 2024 pada 09.08
+-- Waktu pembuatan: 06 Jan 2024 pada 15.31
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.0.15
 
@@ -106,14 +106,54 @@ INSERT INTO `penyakit` (`idpenyakit`, `kode_penyakit`, `nama_penyakit`, `deskrip
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `relasi_gejala_penyakit`
+-- Struktur dari tabel `relasi_penyakit_gejala`
 --
 
-CREATE TABLE `relasi_gejala_penyakit` (
+CREATE TABLE `relasi_penyakit_gejala` (
   `idrelasi` int(11) NOT NULL,
-  `idgelaja` int(11) NOT NULL,
+  `idgejala` int(11) NOT NULL,
   `idpenyakit` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `relasi_penyakit_gejala`
+--
+
+INSERT INTO `relasi_penyakit_gejala` (`idrelasi`, `idgejala`, `idpenyakit`) VALUES
+(1, 1, 1),
+(2, 2, 1),
+(3, 3, 1),
+(4, 4, 1),
+(5, 5, 1),
+(6, 6, 1),
+(7, 19, 1),
+(8, 2, 2),
+(9, 7, 2),
+(10, 8, 2),
+(11, 9, 2),
+(12, 10, 2),
+(13, 8, 4),
+(14, 9, 4),
+(15, 11, 4),
+(16, 12, 4),
+(17, 13, 4),
+(18, 14, 4),
+(19, 15, 4),
+(20, 16, 4),
+(21, 19, 4),
+(22, 20, 4),
+(23, 24, 4),
+(24, 8, 5),
+(25, 9, 5),
+(26, 17, 5),
+(27, 18, 5),
+(28, 23, 5),
+(29, 8, 6),
+(30, 20, 6),
+(31, 21, 6),
+(32, 22, 6),
+(33, 24, 6),
+(34, 25, 6);
 
 -- --------------------------------------------------------
 
@@ -126,6 +166,37 @@ CREATE TABLE `rule` (
   `idgejala` int(11) NOT NULL,
   `nilai` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `rule`
+--
+
+INSERT INTO `rule` (`idrule`, `idgejala`, `nilai`) VALUES
+(1, 1, 0.5),
+(2, 2, 0.6),
+(3, 3, 0.5),
+(4, 4, 0.3),
+(5, 5, 0.3),
+(6, 6, 0.5),
+(7, 7, 0.4),
+(8, 8, 0.8),
+(9, 9, 0.8),
+(10, 10, 0.6),
+(11, 11, 0.5),
+(12, 12, 0.5),
+(13, 13, 0.3),
+(14, 14, 0.7),
+(15, 15, 0.5),
+(16, 16, 0.8),
+(17, 17, 0.7),
+(18, 18, 0.3),
+(19, 19, 0.5),
+(20, 20, 0.3),
+(21, 21, 0.3),
+(22, 22, 0.5),
+(23, 23, 0.4),
+(24, 24, 0.8),
+(26, 25, 0.6);
 
 -- --------------------------------------------------------
 
@@ -165,7 +236,8 @@ INSERT INTO `solusi` (`idsolusi`, `idpenyakit`, `solusi`) VALUES
 (21, 6, 'Menambah asupan vitamin C'),
 (22, 6, 'Mengkonsumsi sayur dan buah yang mengandung asam folat'),
 (23, 5, 'Kuretase'),
-(24, 5, 'Histerektomi atau pengangkatan rahim. Tindakan ini hanya direkomendasikan jika Anda tidak berencana untuk memiliki keturunan lagi.');
+(24, 5, 'Histerektomi atau pengangkatan rahim. Tindakan ini hanya direkomendasikan jika Anda tidak berencana untuk memiliki keturunan lagi.'),
+(25, 5, 'Penanganan kehamilan anggur melibatkan metode utama berupa operasi pengangkatan jaringan');
 
 -- --------------------------------------------------------
 
@@ -229,11 +301,11 @@ ALTER TABLE `penyakit`
   ADD PRIMARY KEY (`idpenyakit`);
 
 --
--- Indeks untuk tabel `relasi_gejala_penyakit`
+-- Indeks untuk tabel `relasi_penyakit_gejala`
 --
-ALTER TABLE `relasi_gejala_penyakit`
+ALTER TABLE `relasi_penyakit_gejala`
   ADD PRIMARY KEY (`idrelasi`),
-  ADD KEY `idgelaja` (`idgelaja`),
+  ADD KEY `idgelaja` (`idgejala`),
   ADD KEY `idpenyakit` (`idpenyakit`);
 
 --
@@ -286,22 +358,22 @@ ALTER TABLE `penyakit`
   MODIFY `idpenyakit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT untuk tabel `relasi_gejala_penyakit`
+-- AUTO_INCREMENT untuk tabel `relasi_penyakit_gejala`
 --
-ALTER TABLE `relasi_gejala_penyakit`
-  MODIFY `idrelasi` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `relasi_penyakit_gejala`
+  MODIFY `idrelasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT untuk tabel `rule`
 --
 ALTER TABLE `rule`
-  MODIFY `idrule` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idrule` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT untuk tabel `solusi`
 --
 ALTER TABLE `solusi`
-  MODIFY `idsolusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `idsolusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT untuk tabel `tamu`
@@ -327,11 +399,11 @@ ALTER TABLE `hasil`
   ADD CONSTRAINT `hasil_ibfk_2` FOREIGN KEY (`idpenyakit`) REFERENCES `penyakit` (`idpenyakit`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `relasi_gejala_penyakit`
+-- Ketidakleluasaan untuk tabel `relasi_penyakit_gejala`
 --
-ALTER TABLE `relasi_gejala_penyakit`
-  ADD CONSTRAINT `relasi_gejala_penyakit_ibfk_1` FOREIGN KEY (`idgelaja`) REFERENCES `gejala` (`idgejala`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `relasi_gejala_penyakit_ibfk_2` FOREIGN KEY (`idpenyakit`) REFERENCES `penyakit` (`idpenyakit`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `relasi_penyakit_gejala`
+  ADD CONSTRAINT `relasi_penyakit_gejala_ibfk_1` FOREIGN KEY (`idgejala`) REFERENCES `gejala` (`idgejala`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `relasi_penyakit_gejala_ibfk_2` FOREIGN KEY (`idpenyakit`) REFERENCES `penyakit` (`idpenyakit`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `rule`

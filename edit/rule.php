@@ -1,3 +1,13 @@
+<?php 
+    session_start();
+    require_once '../controller/rule.php';
+
+    $id = dekripsi($_GET['id']);
+    $data = query("SELECT* FROM rule WHERE idrule = $id")[0];
+    $idgejala = $data['idgejala'];
+    $gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
+?>
+
 <html lang="en">
 
 <head>
@@ -44,33 +54,29 @@
 
 
                         <form method="post" action="">
+                            <input type="hidden" name="idrule" value="<?= $id; ?>">
                             <div class="mb-3 mt-4 row ms-5">
-                                <label for="inputPenyakit" class="col-sm-2 me-0 col-form-label">Penyakit :</label>
+                                <label for="inputKode" class="col-sm-2 me-0 col-form-label">Kode :</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputPenyakit">
+                                    <input type="text" class="form-control" id="inputKode" name="kode_penyakit" value="<?= $gejala['nama_gejala']; ?>" disabled>
                                 </div>
                             </div>
-                            <div class="mb-3 mt-2 row ms-5">
-                                <label for="inputGejala" class="col-sm-2 me-0 col-form-label">Gejala :</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputGejala">
-                                </div>
-                            </div>
+
                             <div class="mb-3 mt-2 row ms-5">
                                 <label for="inputBobot" class="col-sm-2 me-0 col-form-label">Bobot :</label>
                                 <div class="col-sm-8">
-                                    <input type="number" step="0.1" max="1" class="form-control" id="inputBobot">
+                                    <input type="number" step="0.1" max="1" class="form-control" id="inputBobot" name="nilai" value="<?= $data['nilai']; ?>">
                                 </div>
                             </div>
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-2">
                                     <a type="button" class="text-dark mt-3 px-4" href="../menu/manaj_rule.php"
-                                        style="background:none; padding: 5px 15px;">Kembali</a>
+                                        style="background:none;">Kembali</a>
                                 </div>
                                 <div class="col-sm-2">
                                     <button type="submit" class="btn btn-primary mt-3 px-4" style="border-radius: 15px;"
-                                        name="submit">Update</button>
+                                        name="submit">Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -89,13 +95,30 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#example").DataTable();
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+<?php
+if (isset($_POST['submit'])) {
+    if (update($_POST) > 0) {
+        $_SESSION["berhasil"] = "Data Rule Berhasil Diubah!";
+
+        echo "
+          <script>
+            document.location.href='../menu/manaj_rule.php';
+          </script>
+      ";
+    } else {        
+        echo "<script>
+                Swal.fire(
+                    'Gagal!',
+                    'Data Rule Gagal Diubah',
+                    'error'
+                )
+              </script>";
+        exit();
+    }
+}
+?>

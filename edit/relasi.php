@@ -138,13 +138,14 @@ if (isset($_POST['submit'])) {
           </script>
       ";
     } else {
-        $_SESSION["gagal"] = "Data Relasi Gagal Diubah!";
-
-        echo "
-          <script>
-            document.location.href='relasi.php';
-          </script>
-      ";
+        echo "<script>
+                Swal.fire(
+                    'Gagal!',
+                    'Data Relasi Gagal Diubah',
+                    'error'
+                )
+            </script>";
+        exit();
     }
 }
 ?>

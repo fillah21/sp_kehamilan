@@ -118,13 +118,14 @@
           </script>
       ";
     } else {
-      $_SESSION["gagal"] = "Data Penyakit Gagal Diubah!";
-
-      echo "
-          <script>
-            document.location.href='penyakit.php';
-          </script>
-      ";
+        echo "<script>
+                Swal.fire(
+                    'Gagal!',
+                    'Data Penyakit Gagal Diubah',
+                    'error'
+                )
+            </script>";
+        exit();
     }
   }
 ?>

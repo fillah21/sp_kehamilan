@@ -161,14 +161,14 @@ if (isset($_POST['submit'])) {
               </script>
           ";
     } else {
-
-        $_SESSION["gagal"] = "Data Pengguna Gagal Diubah!";
-
-        echo "
-              <script>
-                document.location.href='pengguna.php';
-              </script>
-          ";
+        echo "<script>
+                Swal.fire(
+                    'Gagal!',
+                    'Data Pengguna Gagal Diubah',
+                    'error'
+                )
+            </script>";
+        exit();
     }
 }
 ?>

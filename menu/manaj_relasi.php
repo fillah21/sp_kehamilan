@@ -77,10 +77,10 @@
                                                 <?= $i; ?>
                                             </td>
                                             <td>
-                                                <?= $nama_penyakit['nama_penyakit']; ?>
+                                                <?= $nama_penyakit['nama_penyakit']; ?> (<?= $nama_penyakit['kode_penyakit']; ?>)
                                             </td>
                                             <td>
-                                                <?= $nama_gejala['nama_gejala']; ?>
+                                                <?= $nama_gejala['nama_gejala']; ?> (<?= $nama_gejala['kode_gejala']; ?>)
                                             </td>
                                             <td>
                                                 <a href="../edit/relasi.php?id=<?= enkripsi($r['idrelasi']); ?>">Edit</a> | <a href="#" class="delete bg-danger" id="delete"

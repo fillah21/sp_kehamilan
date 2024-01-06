@@ -113,13 +113,14 @@
           </script>
       ";
     } else {
-      $_SESSION["gagal"] = "Data Penyakit Gagal Ditambahkan!";
-
-      echo "
-          <script>
-            document.location.href='penyakit.php';
-          </script>
-      ";
+        echo "<script>
+                Swal.fire(
+                    'Gagal!',
+                    'Data Penyakit Gagal Ditambahkan',
+                    'error'
+                )
+            </script>";
+        exit();
     }
   }
 ?>

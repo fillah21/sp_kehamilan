@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    require_once '../controller/rule.php';
+
+    $rule = query("SELECT * FROM rule ORDER BY idgejala ASC");
+?>
+
 <html lang="en">
 
 <head>
@@ -50,45 +57,40 @@
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
-                                        <th class="text-center" scope="col">Penyakit</th>
+                                        <th class="text-center" scope="col">No</th>
                                         <th class="text-center" scope="col">Gejala</th>
                                         <th class="text-center" scope="col">Bobot</th>
                                         <th class="text-center" scope="col">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            Penyakit
-                                        </td>
-                                        <td>
-                                            gejala 1
-                                        </td>
-                                        <td>
-                                            0,1287
-                                        </td>
-                                        <td>
-                                            <a href="../edit/rule.php">Edit</a> | <button type="button"
-                                                class="btn btn-danger" style="border-radius: 12px; padding: 2px 17px;"
-                                                id="delete">Delete</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Penyakit
-                                        </td>
-                                        <td>
-                                            gejala 2
-                                        </td>
-                                        <td>
-                                            0,1287
-                                        </td>
-                                        <td>
-                                            <a href="edit_rule.php">Edit</a> | <button type="button"
-                                                class="btn btn-danger" style="border-radius: 12px; padding: 2px 17px;"
-                                                id="delete">Delete</button>
-                                        </td>
-                                    </tr>
+                                    <?php 
+                                        $i = 1;
+                                        foreach($rule as $r) :
+                                            $idgejala = $r['idgejala'];
+                                            $gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
+                                    ?>
+                                        <tr>
+                                            <td>
+                                                <?= $i; ?>
+                                            </td>
+                                            <td>
+                                                <?= $gejala['nama_gejala']; ?> (<?= $gejala['kode_gejala']; ?>)
+                                            </td>
+                                            <td>
+                                                <?= $r['nilai']; ?>
+                                            </td>
+                                            <td>
+                                                <a class="btn" href="../edit/rule.php?id=<?= enkripsi($r['idrule']); ?>">Edit</a> | <a href="#" class="delete bg-danger btn" id="delete"
+                                                        onclick="confirmDelete(<?= $r['idrule']; ?>)">
+                                                        Delete
+                                                    </a>
+                                            </td>
+                                        </tr>
+                                    <?php 
+                                        $i++;
+                                        endforeach;
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -107,13 +109,101 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#example").DataTable();
+            $('#example').DataTable();
         });
+
+        function confirmDelete(id) {
+            // Menampilkan Sweet Alert dengan tombol Yes dan No
+            Swal.fire({
+                title: 'Konfirmasi',
+                text: 'Apakah Anda yakin ingin menghapus data?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                focusCancel: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
+                    $.ajax({
+                        url: '../controller/rule.php',
+                        type: 'POST',
+                        data: {
+                            action: 'delete',
+                            id: id
+                        },
+                        success: function (response) {
+                            // Menampilkan pesan sukses jika data berhasil dihapus 
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Data Rule Berhasil Dihapus!',
+                                confirmButtonText: 'Ok',
+                            }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    document.location.href = 'manaj_rule.php';
+                                }
+                            })
+                        },
+                        error: function (xhr, status, error) {
+                            // Menampilkan pesan error jika terjadi kesalahan dalam penghapusan data
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Terjadi kesalahan dalam menghapus data: ' + error,
+                                icon: 'error'
+                            });
+                        }
+                    });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    // Menampilkan pesan jika tombol No diklik
+                    Swal.fire('Batal', 'Penghapusan data dibatalkan', 'info');
+                }
+            });
+        }
     </script>
 </body>
 
 </html>
+
+<?php
+if (isset($_SESSION["berhasil"])) {
+    $pesan = $_SESSION["berhasil"];
+
+    echo "
+              <script>
+                Swal.fire(
+                  'Berhasil!',
+                  '$pesan',
+                  'success'
+                )
+              </script>
+          ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+
+} elseif (isset($_SESSION['gagal'])) {
+    $pesan = $_SESSION["gagal"];
+
+    echo "
+            <script>
+                Swal.fire(
+                    'Gagal!',
+                    '$pesan',
+                    'error'
+                )
+            </script>
+        ";
+    $_SESSION = [];
+    session_unset();
+    session_destroy();
+
+}
+
+?>
