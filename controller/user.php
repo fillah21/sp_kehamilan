@@ -208,7 +208,7 @@ function update($data)
         }
     }
 
-    if ($password !== $oldpassword) {
+    if ($password !== $oldpassword || $password2 !== $oldpassword) {
         if ($password !== $password2) {
             echo "<script>
                     Swal.fire(
@@ -254,87 +254,4 @@ function update($data)
 // Fungsi Edit Data Pengguna Selesai
 
 // Fungsi Edit Profil Pengguna
-function update_profil($data)
-{
-    global $conn;
-    $iduser = $data['iduser'];
-    $oldpassword = $data['oldpassword'];
-    $oldusername = $data['oldusername'];
-    $oldemail = $data['oldemail'];
-    $oldlevel = $data['oldlevel'];
-
-    $nama = htmlspecialchars($data['nama']);
-    $username = strtolower(stripslashes($data["username"]));
-    $password = mysqli_real_escape_string($conn, $data["pwd"]);
-    $password2 = mysqli_real_escape_string($conn, $data["pwd2"]);
-    $email = htmlspecialchars($data['email']);
-
-    if (isset($data['level'])) {
-        $level = $data['level'];
-    } else {
-        $level = $oldlevel;
-    }
-
-
-    if ($username !== $oldusername) {
-        $result = mysqli_query($conn, "SELECT username FROM user WHERE username = '$username'");
-
-        if (mysqli_fetch_assoc($result)) {
-            echo "<script>
-                    Swal.fire(
-                        'Gagal!',
-                        'Username sudah digunakan, silahkan pakai username lain',
-                        'error'
-                    )
-                  </script>";
-            exit();
-        }
-    }
-
-    if ($password !== $oldpassword) {
-        if ($password !== $password2) {
-            echo "<script>
-                    Swal.fire(
-                        'Gagal!',
-                        'Password tidak sesuai',
-                        'error'
-                    )
-                  </script>";
-            exit();
-        }
-
-        $password = password_hash($password2, PASSWORD_DEFAULT);
-    }
-
-    if ($email !== $oldemail) {
-        $result = mysqli_query($conn, "SELECT email FROM user WHERE email = '$email'");
-
-        if (mysqli_fetch_assoc($result)) {
-            echo "<script>
-                    Swal.fire(
-                        'Gagal!',
-                        'Email sudah digunakan, silahkan pakai email lain',
-                        'error'
-                    )
-                  </script>";
-            exit();
-        }
-    }
-
-
-    $query = "UPDATE user SET 
-                nama = '$nama',
-                username = '$username',
-                password = '$password',
-                email = '$email',
-                level = '$level'
-              WHERE iduser = $iduser
-            ";
-    mysqli_query($conn, $query);
-
-
-    return mysqli_affected_rows($conn);
-}
-// Fungsi Edit Profil Pengguna Selesai
-
 ?>

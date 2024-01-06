@@ -11,7 +11,7 @@
             </span>
 
             <div class="ms-4 mt-2">
-                <a class="text-decoration-none text-secondary" href="">Profil</a>
+                <a class="text-decoration-none text-secondary" href="../user/profil.php">Profil</a>
             </div>
         </div>
         <!--PROFIL SELESAI-->

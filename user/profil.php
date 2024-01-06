@@ -36,7 +36,7 @@ $data = query("SELECT * FROM user WHERE iduser = $id")[0];
             <div class="d-flex">
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.php');
+                require_once('../navbar/sidebar_user.php');
                 ?>
                 <!-- sidebar selesai -->
 
@@ -55,7 +55,7 @@ $data = query("SELECT * FROM user WHERE iduser = $id")[0];
                             <input type="hidden" name="oldpassword" value="<?= $data['password']; ?>">
                             <input type="hidden" name="oldusername" value="<?= $data['username']; ?>">
                             <input type="hidden" name="oldemail" value="<?= $data['email']; ?>">
-                            <input type="hidden" name="level" value="Admin">
+                            <input type="hidden" name="level" value="User">
 
                             <div class="mb-3 mt-4 row ms-5">
                                 <label for="inputName" class="col-sm-3 me-0 col-form-label">Nama :</label>
