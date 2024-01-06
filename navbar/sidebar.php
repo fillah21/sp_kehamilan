@@ -1,5 +1,5 @@
-<?php 
-    validasi_admin();
+<?php
+validasi_admin();
 ?>
 
 <div class="sidebar" id="side_nav">
@@ -36,6 +36,11 @@
                 <li class="">
                     <a href="../menu/manaj_penyakit.php" class="text-decoration-none d-block">
                         <span>Manajemen Penyakit</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="../menu/manaj_solusi.php" class="text-decoration-none d-block">
+                        <span>Manajemen Solusi</span>
                     </a>
                 </li>
                 <li class="">

@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once '../controller/penyakit.php';
+require_once '../controller/solusi.php';
 
-$data = query("SELECT * FROM penyakit ORDER BY CAST(SUBSTRING(kode_penyakit, 2) AS UNSIGNED)");
+$data = query("SELECT * FROM solusi");
 ?>
 
 <html lang="en">
@@ -45,53 +45,53 @@ $data = query("SELECT * FROM penyakit ORDER BY CAST(SUBSTRING(kode_penyakit, 2) 
                     <div class="box">
                         <div class="box1">
                             <h5 class="text-dark text-center mb-0 ms-4 fw-bold">
-                                Manajemen Data Penyakit
+                                Manajemen Data Solusi
                             </h5>
                         </div>
 
                         <div class="ms-5 mt-3">
-                            <a href="../insert/penyakit.php">Tambah Data</a>
+                            <a href="../insert/solusi.php">Tambah Data</a>
                         </div>
 
                         <div class="tabel mt-4 mx-5">
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
-                                        <th class="text-center" scope="col">Kode</th>
-                                        <th class="text-center" scope="col">Nama Penyakit</th>
-                                        <th class="text-center" scope="col">Deskripsi</th>
+                                        <th class="text-center" scope="col">Penyakit</th>
+                                        <th class="text-center" scope="col">Solusi</th>
                                         <th class="text-center" scope="col" style="width: 150px;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    foreach ($data as $d):
+                                    foreach ($data as $sol):
                                         ?>
                                         <tr>
+                                            <?php
+                                            $idpenyakit = $sol['idpenyakit'];
+                                            $nama_penyakit = query("SELECT nama_penyakit FROM penyakit WHERE idpenyakit = $idpenyakit")[0];
+                                            ?>
                                             <td>
-                                                <?= $d['kode_penyakit']; ?>
-                                            </td>
-                                            <td>
-                                                <?= $d['nama_penyakit']; ?>
+                                                <?= $nama_penyakit['nama_penyakit']; ?>
                                             </td>
                                             <td class="truncate">
                                                 <?php
                                                 // Menampilkan deskripsi dengan batasan karakter
-                                                $deskripsi_terbatas = substr($d['deskripsi'], 0, 80);
-                                                echo $deskripsi_terbatas;
-                                                if (strlen($d['deskripsi']) > 80) {
+                                                $solusi_terbatas = substr($sol['solusi'], 0, 80);
+                                                echo $solusi_terbatas;
+                                                if (strlen($sol['solusi']) > 80) {
                                                     echo '...';
                                                 }
                                                 ?>
                                             </td>
                                             <td>
                                                 <div class="mt-2">
-                                                    <a href="../edit/penyakit.php?id=<?= enkripsi($d['idpenyakit']); ?>">
+                                                    <a href="../edit/solusi.php?id=<?= enkripsi($sol['idsolusi']); ?>">
                                                         Edit
                                                     </a>
                                                     |
                                                     <a href="#" class="delete bg-danger" id="delete"
-                                                        onclick="confirmDelete(<?= $d['idpenyakit']; ?>)">
+                                                        onclick="confirmDelete(<?= $sol['idsolusi']; ?>)">
                                                         Delete
                                                     </a>
                                                 </div>
@@ -142,7 +142,7 @@ $data = query("SELECT * FROM penyakit ORDER BY CAST(SUBSTRING(kode_penyakit, 2) 
                 if (result.isConfirmed) {
                     // Memanggil fungsi PHP menggunakan AJAX saat tombol Yes diklik
                     $.ajax({
-                        url: '../controller/penyakit.php',
+                        url: '../controller/solusi.php',
                         type: 'POST',
                         data: {
                             action: 'delete',
@@ -152,12 +152,12 @@ $data = query("SELECT * FROM penyakit ORDER BY CAST(SUBSTRING(kode_penyakit, 2) 
                             // Menampilkan pesan sukses jika data berhasil dihapus 
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Data Penyakit Berhasil Dihapus!',
+                                title: 'Data Solusi Berhasil Dihapus!',
                                 confirmButtonText: 'Ok',
                             }).then((result) => {
                                 /* Read more about isConfirmed, isDenied below */
                                 if (result.isConfirmed) {
-                                    document.location.href = 'manaj_penyakit.php';
+                                    document.location.href = 'manaj_solusi.php';
                                 }
                             })
                         },
