@@ -2,7 +2,7 @@
 session_start();
 require_once '../controller/solusi.php';
 
-$data = query("SELECT * FROM solusi");
+$data = query("SELECT * FROM solusi ORDER BY idpenyakit ASC");
 ?>
 
 <html lang="en">
@@ -57,6 +57,7 @@ $data = query("SELECT * FROM solusi");
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
+                                        <th class="text-center" scope="col">No</th>
                                         <th class="text-center" scope="col">Penyakit</th>
                                         <th class="text-center" scope="col">Solusi</th>
                                         <th class="text-center" scope="col" style="width: 150px;">Aksi</th>
@@ -64,6 +65,7 @@ $data = query("SELECT * FROM solusi");
                                 </thead>
                                 <tbody>
                                     <?php
+                                    $i = 1;
                                     foreach ($data as $sol):
                                         ?>
                                         <tr>
@@ -71,6 +73,9 @@ $data = query("SELECT * FROM solusi");
                                             $idpenyakit = $sol['idpenyakit'];
                                             $nama_penyakit = query("SELECT nama_penyakit FROM penyakit WHERE idpenyakit = $idpenyakit")[0];
                                             ?>
+                                            <td>
+                                                <?= $i; ?>
+                                            </td>
                                             <td>
                                                 <?= $nama_penyakit['nama_penyakit']; ?>
                                             </td>
@@ -98,6 +103,7 @@ $data = query("SELECT * FROM solusi");
                                             </td>
                                         </tr>
                                         <?php
+                                        $i++;
                                     endforeach;
                                     ?>
                                 </tbody>

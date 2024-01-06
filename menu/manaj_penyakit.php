@@ -57,6 +57,7 @@ $data = query("SELECT * FROM penyakit ORDER BY CAST(SUBSTRING(kode_penyakit, 2) 
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
+                                        <th class="text-center" scope="col">No</th>
                                         <th class="text-center" scope="col">Kode</th>
                                         <th class="text-center" scope="col">Nama Penyakit</th>
                                         <th class="text-center" scope="col">Deskripsi</th>
@@ -65,9 +66,13 @@ $data = query("SELECT * FROM penyakit ORDER BY CAST(SUBSTRING(kode_penyakit, 2) 
                                 </thead>
                                 <tbody>
                                     <?php
+                                    $i = 1;
                                     foreach ($data as $d):
                                         ?>
                                         <tr>
+                                            <td>
+                                                <?= $i; ?>
+                                            </td>
                                             <td>
                                                 <?= $d['kode_penyakit']; ?>
                                             </td>
@@ -98,6 +103,7 @@ $data = query("SELECT * FROM penyakit ORDER BY CAST(SUBSTRING(kode_penyakit, 2) 
                                             </td>
                                         </tr>
                                         <?php
+                                        $i++;
                                     endforeach;
                                     ?>
                                 </tbody>

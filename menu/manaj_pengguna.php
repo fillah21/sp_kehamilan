@@ -57,6 +57,7 @@ $data = query("SELECT * FROM user");
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
+                                        <th class="text-center" scope="col">NO</th>
                                         <th class="text-center" scope="col">NAMA</th>
                                         <th class="text-center" scope="col">EMAIL</th>
                                         <th class="text-center" scope="col">LEVEL</th>
@@ -65,10 +66,14 @@ $data = query("SELECT * FROM user");
                                 </thead>
                                 <tbody>
                                     <?php
+                                        $i = 1;
                                         foreach ($data as $d):
                                         $id_enkrip = enkripsi($d['iduser']);
                                         ?>
                                         <tr>
+                                            <td>
+                                                <?= $i; ?>
+                                            </td>
                                             <td>
                                                 <?= $d['nama']; ?>
                                             </td>
@@ -85,6 +90,7 @@ $data = query("SELECT * FROM user");
                                             </td>
                                         </tr>
                                         <?php
+                                        $i++;
                                         endforeach;
                                     ?>
                                 </tbody>

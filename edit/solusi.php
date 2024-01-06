@@ -56,7 +56,7 @@ $data = query("SELECT * FROM solusi WHERE idsolusi = $id")[0];
 
                         <form method="post" action="">
                             <input type="hidden" name="idsolusi" value="<?= $id; ?>">
-                            <input type="hidden" name="oldsolusi" value="<?= $solusi['solusi']; ?>">
+                            <input type="hidden" name="oldsolusi" value="<?= $data['solusi']; ?>">
 
                             <div class="mb-3 mt-4 row ms-5">
                                 <label for="inputpenyakit" class="col-sm-2 me-0 col-form-label">Penyakit :</label>
@@ -67,7 +67,7 @@ $data = query("SELECT * FROM solusi WHERE idsolusi = $id")[0];
                                         <?php
                                         foreach ($penyakit as $p):
                                             ?>
-                                            <option value="<?php echo $p['idpenyakit'] ?>" <?php echo ($p['idpenyakit'] == $p['idpenyakit']) ? 'selected' : ''; ?>><?php echo $p['nama_penyakit'] ?></option>
+                                            <option value="<?php echo $p['idpenyakit'] ?>" <?php echo ($p['idpenyakit'] == $data['idpenyakit']) ? 'selected' : ''; ?>>(<?= $p['kode_penyakit']; ?>) <?php echo $p['nama_penyakit'] ?></option>
                                             <?php
                                         endforeach
                                         ?>

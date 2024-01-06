@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 05 Jan 2024 pada 16.35
+-- Waktu pembuatan: 06 Jan 2024 pada 09.08
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.0.15
 
@@ -139,6 +139,34 @@ CREATE TABLE `solusi` (
   `solusi` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `solusi`
+--
+
+INSERT INTO `solusi` (`idsolusi`, `idpenyakit`, `solusi`) VALUES
+(3, 1, 'Beristirahat sebanyak mungkin'),
+(4, 1, 'Mengurangi konsumsi garam'),
+(5, 1, 'Melakukan pemeriksaan kehamilan dua kali dalam seminggu'),
+(6, 2, 'Sel telur yang telah dibuahi tidak dapat berkembang secara normal di luar rahim. Oleh karena itu, jaringan ektopik harus diangkat untuk mencegah komplikasi yang dapat berakibat fatal'),
+(7, 1, 'Mengonsumsi obat antihypertensip'),
+(8, 1, 'Ibu hamil yang mengalami preeklampsia perlu mendapatkan perawatan di rumah sakit jika tekanan darah mencapai 140/90 atau lebih\r\n'),
+(9, 1, 'Ibu hamil yang mengalami preeklampsia perlu mendapatkan perawatan di rumah sakit jika terdapat tanda proteinuria'),
+(10, 2, 'Wanita yang dicurigai mengalami kehamilan ektopik segera harus dibawa ke rumah sakit untuk mendapatkan penanganan secepat mungkin. Kehamilan ektopik yang terdeteksi secara dini, tanpa gejala nyeri yang signifikan, dan tanpa janin yang berkembang normal dalam rahim biasanya diterapi dengan suntikan. Suntikan tersebut bertujuan untuk menghentikan pertumbuhan dan menghancurkan sel-sel yang telah terbentuk.'),
+(11, 2, 'Penanganan kehamilan ektopik juga dapat dilakukan melalui tindakan operasi. Prosedur ini umumnya dilaksanakan dengan metode operasi laparoskopi atau operasi lubang kunci. Tuba fallopi yang ditumbuhi jaringan ektopik akan diperbaiki dalam proses ini'),
+(12, 4, 'Mengonsumsi makanan dalam porsi kecil tetapi sering'),
+(13, 4, 'Melakukan variasi dalam makanan dengan memasukkan biskuit atau  roti kering dengan teh'),
+(14, 4, 'Hindari makanan berlemak karena umumnya dapat menyebabkan mual'),
+(15, 4, 'Menambahkan asupan makanan yang mengandung vitamin B1,B6, vitamin B complex, dan vitamin C'),
+(16, 4, 'Penggunaan obat, seperti Chlorpromazin, sering digunakan karena tidak hanya memiliki efek menenangkan jiwa tetapi juga bersifat anti muntah'),
+(17, 4, 'Untuk ibu hamil yang mengalami Hiperemesis Gravidarum, penanganan medis segera diperlukan jika semua makanan dan minuman yang dikonsumsi cenderung dimuntahkan, terutama jika kondisi ini berlangsung dalam jangka waktu yang lama'),
+(18, 4, 'Untuk ibu hamil yang mengalami Hiperemesis Gravidarum, penanganan medis segera diperlukan jika terjadi penurunan berat badan yang signifikan'),
+(19, 4, 'Untuk ibu hamil yang mengalami Hiperemesis Gravidarum, penanganan medis segera diperlukan jika terdapat gejala lidah kering'),
+(20, 6, 'Mengkonsumsi suplemen zat besi '),
+(21, 6, 'Menambah asupan vitamin C'),
+(22, 6, 'Mengkonsumsi sayur dan buah yang mengandung asam folat'),
+(23, 5, 'Kuretase'),
+(24, 5, 'Histerektomi atau pengangkatan rahim. Tindakan ini hanya direkomendasikan jika Anda tidak berencana untuk memiliki keturunan lagi.');
+
 -- --------------------------------------------------------
 
 --
@@ -273,7 +301,7 @@ ALTER TABLE `rule`
 -- AUTO_INCREMENT untuk tabel `solusi`
 --
 ALTER TABLE `solusi`
-  MODIFY `idsolusi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idsolusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT untuk tabel `tamu`

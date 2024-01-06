@@ -18,7 +18,7 @@ function create($solusi)
               </script>";
         exit();
     } else {
-        $result = mysqli_query($conn, "SELECT solusi FROM solusi WHERE solusi = '$solusi'");
+        $result = mysqli_query($conn, "SELECT solusi FROM solusi WHERE solusi = '$solusi' AND idpenyakit = '$idpenyakit'");
 
         if (mysqli_fetch_assoc($result)) {
             echo "<script>
@@ -70,7 +70,7 @@ function update($solusi)
                   </script>";
         exit();
     } elseif ($solusi != $oldsolusi) {
-        $result = mysqli_query($conn, "SELECT solusi FROM solusi WHERE solusi = '$solusi'");
+        $result = mysqli_query($conn, "SELECT solusi FROM solusi WHERE solusi = '$solusi' AND idpenyakit = '$idpenyakit'");
 
         if (mysqli_fetch_assoc($result)) {
             echo "<script>

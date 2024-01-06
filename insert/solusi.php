@@ -56,11 +56,11 @@ $penyakit = mysqli_query($conn, "SELECT * FROM penyakit ORDER BY idpenyakit DESC
                                 <div class="col-sm-8">
                                     <select class="boxc form-control" style="border-color: black;" name="idpenyakit"
                                         require>
-                                        <option hidden selected>--Pilih Penyakit--</option>
+                                        <option hidden selected value="">--Pilih Penyakit--</option>
                                         <?php
                                         foreach ($penyakit as $p):
                                             ?>
-                                            <option value="<?php echo $p['idpenyakit'] ?>"><?php echo $p['nama_penyakit'] ?>
+                                            <option value="<?php echo $p['idpenyakit'] ?>">(<?= $p['kode_penyakit']; ?>) <?php echo $p['nama_penyakit'] ?>
                                             </option>
                                             <?php
                                         endforeach
@@ -110,7 +110,7 @@ $penyakit = mysqli_query($conn, "SELECT * FROM penyakit ORDER BY idpenyakit DESC
 <?php
 if (isset($_POST['submit'])) {
     if (create($_POST) > 0) {
-        $_SESSION["berhasil"] = "Data Solusi Berhasil Diubah!";
+        $_SESSION["berhasil"] = "Data Solusi Berhasil Ditambahkan!";
 
         echo "
           <script>
@@ -118,7 +118,7 @@ if (isset($_POST['submit'])) {
           </script>
       ";
     } else {
-        $_SESSION["gagal"] = "Data Solusi Gagal Diubah!";
+        $_SESSION["gagal"] = "Data Solusi Gagal Ditambahkan!";
 
         echo "
           <script>
