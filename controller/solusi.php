@@ -36,7 +36,7 @@ function create($solusi)
         echo "<script>
                 Swal.fire(
                     'Gagal!',
-                    'Penyakit tidak boleh kosong',
+                    'Penyakit tidak boleh kosong, silahkan pilih penyakit',
                     'error'
                 )
               </script>";

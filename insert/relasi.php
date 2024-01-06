@@ -1,3 +1,11 @@
+<?php 
+    session_start();
+    require_once '../controller/relasi.php';
+
+    $penyakit = query("SELECT * FROM penyakit");
+    $gejala = query("SELECT * FROM gejala");
+?>
+
 <html lang="en">
 
 <head>
@@ -38,7 +46,7 @@
                     <div class="box">
                         <div class="box1">
                             <h5 class="text-dark text-center mb-0 ms-4 fw-bold">
-                                Manajemen Rule
+                                Manajemen Relasi Penyakit dan Gejala
                             </h5>
                         </div>
 
@@ -47,30 +55,48 @@
                             <div class="mb-3 mt-4 row ms-5">
                                 <label for="inputPenyakit" class="col-sm-2 me-0 col-form-label">Penyakit :</label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputPenyakit">
-                                </div>
-                            </div>
-                            <div class="mb-3 mt-2 row ms-5">
-                                <label for="inputGejala" class="col-sm-2 me-0 col-form-label">Gejala :</label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="inputGejala">
-                                </div>
-                            </div>
-                            <div class="mb-3 mt-2 row ms-5">
-                                <label for="inputBobot" class="col-sm-2 me-0 col-form-label">Bobot :</label>
-                                <div class="col-sm-8">
-                                    <input type="number" step="0.1" max="1" class="form-control" id="inputBobot">
+                                    <select class="boxc form-control" style="border-color: black;" name="idpenyakit"
+                                        require>
+                                        <option hidden selected value="">--Pilih Penyakit--</option>
+                                        <?php
+                                        foreach ($penyakit as $p):
+                                            ?>
+                                            <option value="<?php echo $p['idpenyakit'] ?>">(<?= $p['kode_penyakit']; ?>) <?php echo $p['nama_penyakit'] ?>
+                                            </option>
+                                            <?php
+                                        endforeach
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
 
+                            <div class="mb-3 mt-4 row ms-5">
+                                <label for="inputPenyakit" class="col-sm-2 me-0 col-form-label">Gejala :</label>
+                                <div class="col-sm-8">
+                                    <select class="boxc form-control" style="border-color: black;" name="idgejala"
+                                        require>
+                                        <option hidden selected value="">--Pilih Gejala--</option>
+                                        <?php
+                                        foreach ($gejala as $g):
+                                            ?>
+                                            <option value="<?php echo $g['idgejala'] ?>">(<?= $g['kode_gejala']; ?>) <?php echo $g['nama_gejala'] ?>
+                                            </option>
+                                            <?php
+                                        endforeach
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                            
+
                             <div class="row justify-content-end">
                                 <div class="col-sm-2">
-                                    <a type="button" class="text-dark mt-3 px-4" href="../menu/manaj_rule.php"
+                                    <a type="button" class="text-dark mt-3 px-4" href="../menu/manaj_relasi.php"
                                         style="background:none;">Kembali</a>
                                 </div>
                                 <div class="col-sm-2">
                                     <button type="submit" class="btn btn-primary mt-3 px-4" style="border-radius: 15px;"
-                                        name="register">Submit</button>
+                                        name="submit">Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -89,13 +115,29 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#example").DataTable();
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
+
+<?php
+if (isset($_POST['submit'])) {
+    if (create($_POST) > 0) {
+        $_SESSION["berhasil"] = "Data Relasi Berhasil Ditambahkan!";
+
+        echo "
+          <script>
+            document.location.href='../menu/manaj_relasi.php';
+          </script>
+      ";
+    } else {
+        $_SESSION["gagal"] = "Data Relasi Gagal Ditambahkan!";
+
+        echo "
+          <script>
+            document.location.href='relasi.php';
+          </script>
+      ";
+    }
+}
+?>

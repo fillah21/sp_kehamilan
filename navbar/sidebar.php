@@ -39,13 +39,18 @@ validasi_admin();
                     </a>
                 </li>
                 <li class="">
+                    <a href="../menu/manaj_gejala.php" class="text-decoration-none d-block">
+                        <span>Manajemen Gejala</span>
+                    </a>
+                </li>
+                <li class="">
                     <a href="../menu/manaj_solusi.php" class="text-decoration-none d-block">
                         <span>Manajemen Solusi</span>
                     </a>
                 </li>
                 <li class="">
-                    <a href="../menu/manaj_gejala.php" class="text-decoration-none d-block">
-                        <span>Manajemen Gejala</span>
+                    <a href="../menu/manaj_relasi.php" class="text-decoration-none d-block">
+                        <span>Manajemen Relasi</span>
                     </a>
                 </li>
                 <li class="">

@@ -21,7 +21,7 @@
     <div class="content">
         <!-- navbar -->
         <?php
-        require_once('../navbar/navbar.html');
+        require_once('../navbar/navbar.php');
         ?>
         <!-- navbar selesai -->
 
@@ -29,7 +29,7 @@
             <div class="d-flex">
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.html');
+                require_once('../navbar/sidebar.php');
                 ?>
                 <!-- sidebar selesai -->
 
