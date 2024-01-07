@@ -3,7 +3,6 @@
     require_once '../controller/rule.php';
 
     $gejala = query("SELECT * FROM gejala WHERE idgejala NOT IN (SELECT DISTINCT idgejala FROM rule) ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
-    $jumlah_gejala = jumlah_data("SELECT * FROM gejala WHERE idgejala NOT IN (SELECT DISTINCT idgejala FROM rule) ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS UNSIGNED)");
 ?>
 
 <html lang="en">
@@ -50,7 +49,7 @@
                             </h5>
                         </div>
 
-                        <?php if($jumlah_gejala == 0) : ?>
+                        <?php if(count($gejala) == 0) : ?>
                             <h3 class="text-center mt-3">Semua gejala sudah memiliki bobot</h3>
                         <?php else : ?>
                             <form method="post" action="">

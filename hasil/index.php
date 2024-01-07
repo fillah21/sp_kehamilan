@@ -23,7 +23,7 @@
     <div class="content">
         <!-- navbar -->
         <?php
-        require_once('../navbar/navbar.html');
+        require_once('../navbar/navbar.php');
         ?>
         <!-- navbar selesai -->
 
@@ -31,7 +31,14 @@
             <div class="d-flex">
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.html');
+                if(isset($_COOKIE['SPKehamilan'])) {
+                    $user = cari_user();
+                    if ($user['level'] === "User") {
+                        require_once('../navbar/sidebar_user.php');
+                    } elseif ($user['level'] === "Admin") {
+                        require_once('../navbar/sidebar.php');
+                    }
+                }
                 ?>
                 <!-- sidebar selesai -->
 
@@ -103,7 +110,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
-    <script src="bootstrap-5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

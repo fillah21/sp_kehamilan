@@ -21,7 +21,7 @@
     <div class="content">
         <!-- navbar -->
         <?php
-        require_once('../navbar/navbar.html');
+        require_once('../navbar/navbar.php');
         ?>
         <!-- navbar selesai -->
 
@@ -29,7 +29,7 @@
             <div class="d-flex">
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.html');
+                require_once('../navbar/sidebar.php');
                 ?>
                 <!-- sidebar selesai -->
 
@@ -48,10 +48,10 @@
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
-                                        <th scope="col">TANGGAL</th>
-                                        <th scope="col">NAMA</th>
-                                        <th scope="col">HASIL DIAGNOSA</th>
-                                        <th scope="col"></th>
+                                        <th class="text-center" scope="col">TANGGAL</th>
+                                        <th class="text-center" scope="col">NAMA</th>
+                                        <th class="text-center" scope="col">HASIL DIAGNOSA</th>
+                                        <th class="text-center" scope="col">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>

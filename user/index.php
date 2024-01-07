@@ -43,8 +43,11 @@ session_start();
                 } elseif ($user['level'] === "Admin") {
                     require_once('../navbar/sidebar.php');
                 } else {
-                    // Jika peran tidak dikenali, Anda dapat menambahkan pesan error atau tindakan lain sesuai kebutuhan
-                    echo "Error: Peran pengguna tidak valid.";
+                    echo "
+                        <script>
+                            document.location.href='../logout.php';
+                        </script>
+                    ";
                 }
                 ?>
                 <!-- sidebar selesai -->
