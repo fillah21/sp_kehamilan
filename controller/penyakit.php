@@ -76,6 +76,15 @@
         return mysqli_affected_rows($conn);
     }
 
+    function create_field($data) {
+        global $conn;
+        $kode = htmlspecialchars($data['nama_penyakit']);
+        $kode_kecil = strtolower(str_replace(" ", "_", $kode));
+
+        mysqli_query($conn, "ALTER TABLE hasil ADD $kode_kecil DOUBLE DEFAULT 0");
+        mysqli_query($conn, "ALTER TABLE tamu ADD $kode_kecil DOUBLE DEFAULT 0");
+    }
+
     function update($data) {
         global $conn;
         $id = $data['idpenyakit'];
@@ -129,9 +138,29 @@
         return mysqli_affected_rows($conn);
     }
 
+    function update_field($data) {
+        global $conn;
+
+        $oldnama = htmlspecialchars($data['oldnama']);
+        $nama_penyakit = htmlspecialchars($data['nama_penyakit']);
+        $oldkode_kecil = strtolower(str_replace(" ", "_", $oldnama));
+        $kode_kecil = strtolower(str_replace(" ", "_", $nama_penyakit));
+
+        if($nama_penyakit != $oldnama) {
+            mysqli_query($conn, "ALTER TABLE hasil CHANGE $oldkode_kecil $kode_kecil DOUBLE DEFAULT 0");
+            mysqli_query($conn, "ALTER TABLE tamu CHANGE $oldkode_kecil $kode_kecil DOUBLE DEFAULT 0");
+        }
+    }
+
     function delete($id)
     {
         global $conn;
+        $data = query("SELECT * FROM penyakit WHERE idpenyakit = $id") [0];
+        $nama_penyakit = $data['nama_penyakit'];
+        $kode_kecil = strtolower(str_replace(" ", "_", $nama_penyakit));
+
+        mysqli_query($conn, "ALTER TABLE hasil DROP COLUMN $kode_kecil");
+        mysqli_query($conn, "ALTER TABLE tamu DROP COLUMN $kode_kecil");
         mysqli_query($conn, "DELETE FROM penyakit WHERE idpenyakit = $id");
 
         $deleted = true;

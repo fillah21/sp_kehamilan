@@ -110,13 +110,14 @@
 <?php 
   if(isset($_POST['submit'])) {
     if (update($_POST) > 0) {
-      $_SESSION["berhasil"] = "Data Penyakit Berhasil Diubah!";
+        update_field($_POST);
+        $_SESSION["berhasil"] = "Data Penyakit Berhasil Diubah!";
 
-      echo "
-          <script>
-            document.location.href='../menu/manaj_penyakit.php';
-          </script>
-      ";
+        echo "
+            <script>
+                document.location.href='../menu/manaj_penyakit.php';
+            </script>
+        ";
     } else {
         echo "<script>
                 Swal.fire(
