@@ -25,7 +25,7 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="../menu/riwayat" class="text-decoration-none d-block">
+                    <a href="../menu/riwayat.php" class="text-decoration-none d-block">
                         <span>Riwayat</span>
                     </a>
                 </li>

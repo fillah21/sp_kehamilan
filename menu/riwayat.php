@@ -1,3 +1,8 @@
+<?php 
+    require_once '../controller/hasil.php';
+    validasi();
+?>
+
 <html lang="en">
 
 <head>
@@ -29,7 +34,17 @@
             <div class="d-flex">
                 <!-- sidebar -->
                 <?php
-                require_once('../navbar/sidebar.php');
+                    if ($user['level'] === "User") {
+                        require_once('../navbar/sidebar_user.php');
+                    } elseif ($user['level'] === "Admin") {
+                        require_once('../navbar/sidebar.php');
+                    } else {
+                        echo "
+                            <script>
+                                document.location.href='../logout.php';
+                            </script>
+                        ";
+                    }
                 ?>
                 <!-- sidebar selesai -->
 
@@ -42,51 +57,99 @@
                             </h5>
                         </div>
 
-                        <button type="button" class="btn btn-danger ms-5 mt-3">Hapus Data</button>
-
                         <div class="tabel mx-5 mt-3">
-                            <table id="example" class="table table-hover text-center">
-                                <thead>
-                                    <tr class="table-secondary">
-                                        <th class="text-center" scope="col">TANGGAL</th>
-                                        <th class="text-center" scope="col">NAMA</th>
-                                        <th class="text-center" scope="col">HASIL DIAGNOSA</th>
-                                        <th class="text-center" scope="col">AKSI</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>20-20-20</td>
-                                        <td>Nama</td>
-                                        <td>Penyakit</td>
-                                        <td>
-                                            <a href="../hasil">
-                                                Detail
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>20-20-20</td>
-                                        <td>Nama</td>
-                                        <td>Penyakit</td>
-                                        <td>
-                                            <a href="../hasil">
-                                                Detail
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>20-20-20</td>
-                                        <td>Nama</td>
-                                        <td>Penyakit</td>
-                                        <td>
-                                            <a href="../hasil">
-                                                Detail
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <?php 
+                                if($user['level'] == "User") : 
+                                    $id = $user['iduser'];
+
+                                    $data_hasil = query("SELECT * FROM hasil WHERE iduser = $id");
+                            ?>
+                                <table id="example" class="table table-hover text-center">
+                                    <thead>
+                                        <tr class="table-secondary">
+                                            <th class="text-center" scope="col">NO</th>
+                                            <th class="text-center" scope="col">TANGGAL</th>
+                                            <th class="text-center" scope="col">HASIL DIAGNOSA</th>
+                                            <th class="text-center" scope="col">AKSI</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                            $i = 1;
+                                            foreach($data_hasil as $dh) :
+                                                $waktu_tes = strftime('%H:%M:%S / %d %B %Y', strtotime($dh['tanggal']));
+                                                $hasil = hasil($dh);
+
+                                                if(count($hasil) > 1) {
+                                                    $nama_penyakit = implode(", ", $hasil);
+                                                } else {
+                                                    $nama_penyakit = $hasil[0];
+                                                }
+                                        ?>
+                                            <tr>
+                                                <td><?= $i; ?></td>
+                                                <td><?= $waktu_tes; ?></td>
+                                                <td><?= $nama_penyakit; ?></td>
+                                                <td>
+                                                    <a href="../hasil/index.php?id=<?= enkripsi($dh['idhasil']); ?>">
+                                                        Detail
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php 
+                                            $i++;
+                                            endforeach;
+                                        ?>
+                                    </tbody>
+                                </table>
+                            <?php 
+                                elseif(($user['level'] == "Admin")) : 
+                                    $data_hasil = query("SELECT * FROM hasil ORDER BY iduser ASC");
+                            ?>
+                                <table id="example" class="table table-hover text-center">
+                                    <thead>
+                                        <tr class="table-secondary">
+                                            <th class="text-center" scope="col">NO</th>
+                                            <th class="text-center" scope="col">TANGGAL</th>
+                                            <th class="text-center" scope="col">NAMA</th>
+                                            <th class="text-center" scope="col">HASIL DIAGNOSA</th>
+                                            <th class="text-center" scope="col">AKSI</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                            $i = 1;
+                                            foreach($data_hasil as $dh) :
+                                                $waktu_tes = strftime('%H:%M:%S / %d %B %Y', strtotime($dh['tanggal']));
+                                                $hasil = hasil($dh);
+                                                $iduser = $dh['iduser'];
+
+                                                $nama_user = query("SELECT nama FROM user WHERE iduser = $iduser")[0];
+
+                                                if(count($hasil) > 1) {
+                                                    $nama_penyakit = implode(", ", $hasil);
+                                                } else {
+                                                    $nama_penyakit = $hasil[0];
+                                                }
+                                        ?>
+                                            <tr>
+                                                <td><?= $i; ?></td>
+                                                <td><?= $waktu_tes; ?></td>
+                                                <td><?= $nama_user['nama']; ?></td>
+                                                <td><?= $nama_penyakit; ?></td>
+                                                <td>
+                                                    <a href="../hasil/index.php?id=<?= enkripsi($dh['idhasil']); ?>">
+                                                        Detail
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php 
+                                            $i++;
+                                            endforeach;
+                                        ?>
+                                    </tbody>
+                                </table>
+                            <?php endif;?>
                         </div>
                     </div>
                 </div>

@@ -4,17 +4,20 @@
     $iduser = dekripsi($_COOKIE['SPKehamilan']);
     
     if(isset($_GET['id'])) {
+        $idhasil = dekripsi($_GET['id']);
+        $data = query("SELECT * FROM hasil WHERE idhasil = $idhasil")[0];
 
+        $hasil = hasil($data);
     } else {
         $data = query("SELECT * FROM hasil WHERE iduser = $iduser AND idhasil = (SELECT MAX(idhasil) FROM hasil WHERE iduser = $iduser)")[0];
 
         $hasil = hasil($data);
+    }
 
-        if(count($hasil) > 1) {
-            $nama_penyakit = implode(", ", $hasil);
-        } else {
-            $nama_penyakit = $hasil[0];
-        }
+    if(count($hasil) > 1) {
+        $nama_penyakit = implode(", ", $hasil);
+    } else {
+        $nama_penyakit = $hasil[0];
     }
 ?>
 
