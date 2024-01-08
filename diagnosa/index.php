@@ -70,7 +70,7 @@
                             <div class="mb-3 mt-3 row ms-5">
                                 <label for="inputUsia" class="col-sm-2 col-form-label">Usia Kandungan (bulan):</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="inputUsia">
+                                    <input type="number" class="form-control" id="inputUsia" name="usia_kandungan">
                                 </div>
                             </div>
 
@@ -102,12 +102,25 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
 
 <?php 
     if(isset($_POST['submit'])) {
-        hitung($_POST);
+        if (save($_POST, $user['iduser']) > 0) {
+            echo "
+                <script>
+                  document.location.href='../hasil/index.php';
+                </script>
+            ";
+        } else {
+            echo "
+                <script>
+                  document.location.href='index.php';
+                </script>
+            ";
+        }
     }
 ?>

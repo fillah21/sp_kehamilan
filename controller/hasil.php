@@ -2,9 +2,27 @@
     require_once 'main.php';
 
     function hitung($data) {
+        if($data['usia_kandungan'] == "") {
+            echo "<script>
+                        Swal.fire(
+                            'Gagal!',
+                            'Usia kandungan tidak boleh kosong',
+                            'error'
+                        )
+                    </script>";
+                exit();
+        } elseif($data['usia_kandungan'] > 9) {
+            echo "<script>
+                        Swal.fire(
+                            'Gagal!',
+                            'Usia kandungan tidak boleh lebih dari 9 bulan',
+                            'error'
+                        )
+                    </script>";
+                exit();
+        }
         $data_penyakit = query("SELECT * FROM penyakit");
         $hasil = [];
-        $hasil_id = [];
         
         foreach($data_penyakit as $dp) {
             $id_penyakit = $dp['idpenyakit'];
@@ -78,15 +96,50 @@
                 }
             }
             // echo "Hasil sigma Bayes " . $dp['kode_penyakit'] . " adalah " . ${"sigma_bayes_" . $dp['kode_penyakit']} . "<br><br>";
-            $hasil[] = ${"sigma_bayes_" . $dp['kode_penyakit']};
-            $hasil_id[] = $dp['idpenyakit'];
+            $hasil[] = number_format(${"sigma_bayes_" . $dp['kode_penyakit']}, 2);
         }
 
-        $max = max($hasil);
-        $idmax = array_search($max, $hasil);
+        return $hasil;
+    }
 
-        $idhasil = $hasil_id[$idmax];
+    function save($data, $id) {
+        global $conn;
 
-        return $idhasil;
+        $usia_kandungan = $data['usia_kandungan'];
+
+        $hasil = hitung($data);
+
+        $value = implode(", ", $hasil);
+
+        $query = "INSERT INTO hasil
+                    VALUES
+                    (NULL, '$id', CURRENT_TIMESTAMP(), '$usia_kandungan', ";
+      
+        $query .= $value . ")";
+
+        mysqli_query($conn, $query);
+
+        return mysqli_affected_rows($conn);
+    }
+
+    function hasil($data) {
+        $penyakit = query("SELECT * FROM penyakit");
+
+        foreach($penyakit as $pen) {
+            $nama[] = strtolower(str_replace(" ", "_", $pen['nama_penyakit']));
+            $nama_penyakit[] = $pen['nama_penyakit'];
+        }
+
+        foreach($nama as $na) {
+            $nilai_hasil[] = $data[$na];
+        }
+
+        $posisi = array_keys($nilai_hasil, max($nilai_hasil));
+        
+        foreach($posisi as $po) {
+            $hasil_penyakit[] = $nama_penyakit[$po];
+        }
+
+        return $hasil_penyakit;
     }
 ?>
