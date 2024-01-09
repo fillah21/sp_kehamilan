@@ -1,15 +1,19 @@
 <?php
 require_once '../controller/hasil.php';
 validasi();
-$iduser = dekripsi($_COOKIE['SPKehamilan']);
 
 if (isset($_GET['id'])) {
     $idhasil = dekripsi($_GET['id']);
     $data = query("SELECT * FROM hasil WHERE idhasil = $idhasil")[0];
 
+    $iduser = $data['iduser'];
+    $nama_user = query("SELECT nama FROM user WHERE iduser = $iduser")[0];
+    
     $hasil = hasil($data);
 } else {
+    $iduser = dekripsi($_COOKIE['SPKehamilan']);
     $data = query("SELECT * FROM hasil WHERE iduser = $iduser AND idhasil = (SELECT MAX(idhasil) FROM hasil WHERE iduser = $iduser)")[0];
+    $nama_user = query("SELECT nama FROM user WHERE iduser = $iduser")[0];
 
     $hasil = hasil($data);
 }
@@ -75,7 +79,7 @@ if (count($hasil) > 1) {
                         </div>
 
                         <h5 class="fw-bold mt-4 ms-5">
-                            <?= $user['nama']; ?> (
+                            <?= $nama_user['nama']; ?> (
                             <?= $data['usia_kandungan']; ?> bulan)
                         </h5>
 
