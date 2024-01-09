@@ -1,8 +1,8 @@
-<?php 
-    session_start();
-    require_once '../controller/rule.php';
+<?php
+session_start();
+require_once '../controller/rule.php';
 
-    $rule = query("SELECT * FROM rule ORDER BY idgejala ASC");
+$rule = query("SELECT * FROM rule ORDER BY idgejala ASC");
 ?>
 
 <html lang="en">
@@ -57,39 +57,42 @@
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
-                                        <th class="text-center" scope="col">No</th>
-                                        <th class="text-center" scope="col">Gejala</th>
-                                        <th class="text-center" scope="col">Bobot</th>
-                                        <th class="text-center" scope="col">AKSI</th>
+                                        <th class="text-center" scope="col">NO</th>
+                                        <th class="text-center" scope="col">GEJALA</th>
+                                        <th class="text-center" scope="col">BOBOT</th>
+                                        <th class="text-center" scope="col" style="width: 150px;">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                        $i = 1;
-                                        foreach($rule as $r) :
-                                            $idgejala = $r['idgejala'];
-                                            $gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
-                                    ?>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($rule as $r):
+                                        $idgejala = $r['idgejala'];
+                                        $gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
+                                        ?>
                                         <tr>
                                             <td>
                                                 <?= $i; ?>
                                             </td>
                                             <td>
-                                                <?= $gejala['nama_gejala']; ?> (<?= $gejala['kode_gejala']; ?>)
+                                                <?= $gejala['nama_gejala']; ?> (
+                                                <?= $gejala['kode_gejala']; ?>)
                                             </td>
                                             <td>
                                                 <?= $r['nilai']; ?>
                                             </td>
                                             <td>
-                                                <a class="btn" href="../edit/rule.php?id=<?= enkripsi($r['idrule']); ?>">Edit</a> | <a href="#" class="delete bg-danger btn" id="delete"
-                                                        onclick="confirmDelete(<?= $r['idrule']; ?>)">
-                                                        Delete
-                                                    </a>
+                                                <a class="btn"
+                                                    href="../edit/rule.php?id=<?= enkripsi($r['idrule']); ?>">Edit</a> | <a
+                                                    href="#" class="delete bg-danger btn" id="delete"
+                                                    onclick="confirmDelete(<?= $r['idrule']; ?>)">
+                                                    Delete
+                                                </a>
                                             </td>
                                         </tr>
-                                    <?php 
+                                        <?php
                                         $i++;
-                                        endforeach;
+                                    endforeach;
                                     ?>
                                 </tbody>
                             </table>

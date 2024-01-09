@@ -1,24 +1,25 @@
-<?php 
-    require_once '../controller/hasil.php';
-    validasi();
-    $iduser = dekripsi($_COOKIE['SPKehamilan']);
-    
-    if(isset($_GET['id'])) {
-        $idhasil = dekripsi($_GET['id']);
-        $data = query("SELECT * FROM hasil WHERE idhasil = $idhasil")[0];
+<?php
+require_once '../controller/hasil.php';
+validasi();
+$iduser = dekripsi($_COOKIE['SPKehamilan']);
 
-        $hasil = hasil($data);
-    } else {
-        $data = query("SELECT * FROM hasil WHERE iduser = $iduser AND idhasil = (SELECT MAX(idhasil) FROM hasil WHERE iduser = $iduser)")[0];
+if (isset($_GET['id'])) {
+    $idhasil = dekripsi($_GET['id']);
+    $data = query("SELECT * FROM hasil WHERE idhasil = $idhasil")[0];
 
-        $hasil = hasil($data);
-    }
+    $hasil = hasil($data);
+} else {
+    $data = query("SELECT * FROM hasil WHERE iduser = $iduser AND idhasil = (SELECT MAX(idhasil) FROM hasil WHERE iduser = $iduser)")[0];
 
-    if(count($hasil) > 1) {
-        $nama_penyakit = implode(", ", $hasil);
-    } else {
-        $nama_penyakit = $hasil[0];
-    }
+    $hasil = hasil($data);
+}
+$idhasill = enkripsi($data['idhasil']);
+
+if (count($hasil) > 1) {
+    $nama_penyakit = implode(", ", $hasil);
+} else {
+    $nama_penyakit = $hasil[0];
+}
 ?>
 
 <html lang="en">
@@ -54,7 +55,7 @@
             <div class="d-flex">
                 <!-- sidebar -->
                 <?php
-                if(isset($_COOKIE['SPKehamilan'])) {
+                if (isset($_COOKIE['SPKehamilan'])) {
                     if ($user['level'] === "User") {
                         require_once('../navbar/sidebar_user.php');
                     } elseif ($user['level'] === "Admin") {
@@ -73,72 +74,82 @@
                             </h5>
                         </div>
 
-                        <h5 class="fw-bold mt-4 ms-5"><?= $user['nama']; ?> (<?= $data['usia_kandungan']; ?> bulan)</h5>
+                        <h5 class="fw-bold mt-4 ms-5">
+                            <?= $user['nama']; ?> (
+                            <?= $data['usia_kandungan']; ?> bulan)
+                        </h5>
 
                         <div class="box2 mt-3 text-center">
                             <label for="" class="fw-bold">Gejala</label>
                             <hr style="color: black; opacity: 1;">
                             <table class="table">
                                 <tbody>
-                                    <?php 
-                                        $i = 1;
-                                        foreach($hasil as $h) :
-                                            $data_penyakit = query("SELECT * FROM penyakit WHERE nama_penyakit = '$h'")[0];
-                                            
-                                            $idpenyakit = $data_penyakit['idpenyakit'];
-                                            $data_relasi = query("SELECT * FROM relasi_penyakit_gejala WHERE idpenyakit = $idpenyakit");
+                                    <?php
+                                    $i = 1;
+                                    foreach ($hasil as $h):
+                                        $data_penyakit = query("SELECT * FROM penyakit WHERE nama_penyakit = '$h'")[0];
 
-                                            foreach($data_relasi as $dr) :
-                                                $idgejala = $dr['idgejala'];
-                                                $data_gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
-                                    ?>
-                                                <tr>
-                                                    <td scope="row"><?= $i; ?></td>
-                                                    <td><?= $data_gejala['nama_gejala']; ?></td>
-                                                </tr>
-                                    <?php 
+                                        $idpenyakit = $data_penyakit['idpenyakit'];
+                                        $data_relasi = query("SELECT * FROM relasi_penyakit_gejala WHERE idpenyakit = $idpenyakit"); foreach ($data_relasi as $dr):
+                                            $idgejala = $dr['idgejala'];
+                                            $data_gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
+                                            ?>
+                                            <tr>
+                                                <td scope="row">
+                                                    <?= $i; ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_gejala['nama_gejala']; ?>
+                                                </td>
+                                            </tr>
+                                            <?php
                                             $i++;
-                                            endforeach;
                                         endforeach;
+                                    endforeach;
                                     ?>
                                 </tbody>
                             </table>
                         </div>
                         <div class="box2 my-0">
-                            <label class="fw-bold"><?= $nama_penyakit; ?></label>
+                            <label class="fw-bold">
+                                <?= $nama_penyakit; ?>
+                            </label>
                         </div>
                         <div class="box2 my-0">
-                            <?php 
-                                foreach($hasil as $hs) :
-                                    $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
-                            ?>
-                                <label class="fw-medium"><?= $dapen['deskripsi']; ?></label>
+                            <?php foreach ($hasil as $hs):
+                                $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
+                                ?>
+                                <label class="fw-medium">
+                                    <?= $dapen['deskripsi']; ?>
+                                </label>
                             <?php endforeach; ?>
                         </div>
 
                         <div class="mx-5 mt-3 mb-3">
                             <h6 class="fw-bold">Solusi Penanganan :</h6>
                             <ul>
-                                <?php 
-                                    foreach($hasil as $hs) :
-                                        $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
-                                        $idpenyakit = $dapen['idpenyakit'];
-                                        $data_solusi = query("SELECT * FROM solusi WHERE idpenyakit = $idpenyakit");
-
-                                        foreach($data_solusi as $dasol) :
-                                ?>
-                                            <li><?= $dasol['solusi']; ?></li>
-                                <?php 
-                                        endforeach; 
+                                <?php foreach ($hasil as $hs):
+                                    $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
+                                    $idpenyakit = $dapen['idpenyakit'];
+                                    $data_solusi = query("SELECT * FROM solusi WHERE idpenyakit = $idpenyakit"); foreach ($data_solusi as $dasol):
+                                        ?>
+                                        <li>
+                                            <?= $dasol['solusi']; ?>
+                                        </li>
+                                        <?php
                                     endforeach;
+                                endforeach;
                                 ?>
 
                             </ul>
                         </div>
 
+
                         <div class="text-center mb-4">
-                            <button type="button" class="btn btn-primary"
-                                style="border-radius: 15px; width: 150px;">Cetak</button>
+                            <a class="text-decoration-none btn btn-primary"
+                                href="../cetak.php?idhasil=<?= $idhasill; ?>" target="_blank">
+                                <span><i class="bi bi-printer me-2"></i>CETAK HASIL</span>
+                            </a>
                         </div>
                     </div>
                 </div>

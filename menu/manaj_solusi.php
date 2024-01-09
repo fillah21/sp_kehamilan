@@ -57,10 +57,10 @@ $data = query("SELECT * FROM solusi ORDER BY idpenyakit ASC");
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
-                                        <th class="text-center" scope="col">No</th>
-                                        <th class="text-center" scope="col">Penyakit</th>
-                                        <th class="text-center" scope="col">Solusi</th>
-                                        <th class="text-center" scope="col" style="width: 150px;">Aksi</th>
+                                        <th class="text-center" scope="col">NO</th>
+                                        <th class="text-center" scope="col">PENYAKIT</th>
+                                        <th class="text-center" scope="col">SOLUSI</th>
+                                        <th class="text-center" scope="col" style="width: 150px;">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -58,10 +58,10 @@ $gejala = query("SELECT * FROM gejala ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
-                                        <th class="text-center" scope="col">No</th>
-                                        <th class="text-center" scope="col">Kode Gejala</th>
-                                        <th class="text-center" scope="col">Nama Gejala</th>
-                                        <th class="text-center" scope="col" style="width: 150px;">Aksi</th>
+                                        <th class="text-center" scope="col">NO</th>
+                                        <th class="text-center" scope="col">KODE GEJALA</th>
+                                        <th class="text-center" scope="col">NAMA GEJALA</th>
+                                        <th class="text-center" scope="col" style="width: 150px;">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -70,7 +70,9 @@ $gejala = query("SELECT * FROM gejala ORDER BY CAST(SUBSTRING(kode_gejala, 2) AS
                                     foreach ($gejala as $gej):
                                         ?>
                                         <tr>
-                                            <td><?= $i; ?></td>
+                                            <td>
+                                                <?= $i; ?>
+                                            </td>
                                             <td>
                                                 <?= $gej['kode_gejala']; ?>
                                             </td>
