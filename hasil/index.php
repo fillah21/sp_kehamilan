@@ -114,42 +114,45 @@ if (count($hasil) > 1) {
                                 </tbody>
                             </table>
                         </div>
-                        <div class="box2 my-0">
-                            <label class="fw-bold">
-                                <?= $nama_penyakit; ?>
-                            </label>
-                        </div>
-                        <div class="box2 my-0">
-                            <?php foreach ($hasil as $hs):
-                                $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
-                                ?>
+
+                        <?php foreach ($hasil as $hs):
+                            $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
+                            ?>
+                            <div class="box2 mt-4 my-0">
+                                <label class="fw-bold">
+                                    <?= $hs; ?> (20%)
+                                </label>
+                            </div>
+                            <div class="box2 my-0">
                                 <label class="fw-medium">
                                     <?= $dapen['deskripsi']; ?>
                                 </label>
-                            <?php endforeach; ?>
-                        </div>
+                            </div>
+                        <?php endforeach; ?>
 
                         <div class="mx-5 mt-3 mb-3">
-                            <h6 class="fw-bold">Solusi Penanganan :</h6>
-                            <ul>
-                                <?php foreach ($hasil as $hs):
-                                    $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
-                                    $idpenyakit = $dapen['idpenyakit'];
-                                    $data_solusi = query("SELECT * FROM solusi WHERE idpenyakit = $idpenyakit"); foreach ($data_solusi as $dasol):
-                                        ?>
+                            <?php foreach ($hasil as $hs):
+                                $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
+                                $idpenyakit = $dapen['idpenyakit'];
+                                $data_solusi = query("SELECT * FROM solusi WHERE idpenyakit = $idpenyakit"); ?>
+
+                                <h6 class="fw-bold">Solusi Penanganan
+                                    <?= $hs; ?>:
+                                </h6>
+                                <ul>
+                                    <?php foreach ($data_solusi as $dasol): ?>
                                         <li>
                                             <?= $dasol['solusi']; ?>
                                         </li>
-                                        <?php
-                                    endforeach;
-                                endforeach;
-                                ?>
+                                    <?php endforeach; ?>
+                                </ul>
 
-                            </ul>
+                            <?php endforeach; ?>
                         </div>
 
 
-                        <div class="text-center mb-4">
+
+                        <div class="text-center mb-4 mt-5">
                             <a class="text-decoration-none btn btn-primary"
                                 href="../cetak.php?idhasil=<?= $idhasill; ?>" target="_blank">
                                 <span><i class="bi bi-printer me-2"></i>CETAK HASIL</span>
