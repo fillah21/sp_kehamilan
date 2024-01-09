@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 06 Jan 2024 pada 15.31
+-- Waktu pembuatan: 09 Jan 2024 pada 10.54
 -- Versi server: 10.4.22-MariaDB
 -- Versi PHP: 8.0.15
 
@@ -73,11 +73,23 @@ INSERT INTO `gejala` (`idgejala`, `kode_gejala`, `nama_gejala`) VALUES
 CREATE TABLE `hasil` (
   `idhasil` int(11) NOT NULL,
   `iduser` int(11) NOT NULL,
-  `idpenyakit` int(11) NOT NULL,
-  `nilai` double NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `usia_kandungan` int(30) NOT NULL
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp(),
+  `usia_kandungan` int(30) NOT NULL,
+  `preeklampsia` double DEFAULT 0,
+  `kehamilan_etopik` double DEFAULT 0,
+  `hiperemesis_gravidarum` double DEFAULT 0,
+  `mola_hidatidosa` double DEFAULT 0,
+  `anemia` double DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `hasil`
+--
+
+INSERT INTO `hasil` (`idhasil`, `iduser`, `tanggal`, `usia_kandungan`, `preeklampsia`, `kehamilan_etopik`, `hiperemesis_gravidarum`, `mola_hidatidosa`, `anemia`) VALUES
+(1, 1, '2024-01-08 13:40:02', 0, 0.45, 0.8, 0.72, 0.59, 0.68),
+(2, 1, '2024-01-08 14:16:44', 5, 0.45, 0.52, 0.54, 0.54, 0.5),
+(3, 2, '2024-01-08 15:38:23', 8, 0.5, 0.67, 0.62, 0.75, 0.61);
 
 -- --------------------------------------------------------
 
@@ -247,10 +259,14 @@ INSERT INTO `solusi` (`idsolusi`, `idpenyakit`, `solusi`) VALUES
 
 CREATE TABLE `tamu` (
   `idtamu` int(11) NOT NULL,
-  `idpenyakit` int(11) NOT NULL,
-  `nilai` double NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `usia_kandungan` int(30) NOT NULL
+  `nama` varchar(100) NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp(),
+  `usia_kandungan` int(30) NOT NULL,
+  `preeklampsia` double DEFAULT 0,
+  `kehamilan_etopik` double DEFAULT 0,
+  `hiperemesis_gravidarum` double DEFAULT 0,
+  `mola_hidatidosa` double DEFAULT 0,
+  `anemia` double DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -273,8 +289,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`iduser`, `username`, `password`, `nama`, `email`, `level`) VALUES
-(1, 'fillah21', '$2y$10$4kP5Cd89grnJhXi/tCxHh.7A6eVqgS3J7YglOAkPmTHi/XWJyXyma', 'Fillah Zaki Alhaqi', 'fillah.alhaqi11@gmail.com', 'Admin'),
-(2, 'user', '$2y$10$iImG1qfA7ckSYXy/SMis0OPX2Lht9T1EuxorTdiUp43HEjreBpL0q', 'User App', 'user@gmail.com', 'User');
+(1, 'fillah21', '$2y$10$I57/OgHi0gLUjFd6g.cKIe6TnO8/Sba.ASNaC77VVP/4llm4JbLV6', 'Fillah Zaki Alhaqi', 'fillah.alhaqi11@gmail.com', 'Admin'),
+(2, 'user', '$2y$10$I4ewL6YPSU90O4WwA.i3PuKL5kSXOOBvzuBjW5ONWVIC9Wt3Jal9K', 'User App Edit', 'user@gmail.com', 'User');
 
 --
 -- Indexes for dumped tables
@@ -291,8 +307,7 @@ ALTER TABLE `gejala`
 --
 ALTER TABLE `hasil`
   ADD PRIMARY KEY (`idhasil`),
-  ADD KEY `hasil_ibfk_1` (`iduser`),
-  ADD KEY `hasil_ibfk_2` (`idpenyakit`);
+  ADD KEY `hasil_ibfk_1` (`iduser`);
 
 --
 -- Indeks untuk tabel `penyakit`
@@ -326,8 +341,7 @@ ALTER TABLE `solusi`
 -- Indeks untuk tabel `tamu`
 --
 ALTER TABLE `tamu`
-  ADD PRIMARY KEY (`idtamu`),
-  ADD KEY `idpenyakit` (`idpenyakit`);
+  ADD PRIMARY KEY (`idtamu`);
 
 --
 -- Indeks untuk tabel `user`
@@ -349,13 +363,13 @@ ALTER TABLE `gejala`
 -- AUTO_INCREMENT untuk tabel `hasil`
 --
 ALTER TABLE `hasil`
-  MODIFY `idhasil` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idhasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `penyakit`
 --
 ALTER TABLE `penyakit`
-  MODIFY `idpenyakit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idpenyakit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `relasi_penyakit_gejala`
@@ -395,8 +409,7 @@ ALTER TABLE `user`
 -- Ketidakleluasaan untuk tabel `hasil`
 --
 ALTER TABLE `hasil`
-  ADD CONSTRAINT `hasil_ibfk_1` FOREIGN KEY (`iduser`) REFERENCES `user` (`iduser`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `hasil_ibfk_2` FOREIGN KEY (`idpenyakit`) REFERENCES `penyakit` (`idpenyakit`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `hasil_ibfk_1` FOREIGN KEY (`iduser`) REFERENCES `user` (`iduser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `relasi_penyakit_gejala`
@@ -416,12 +429,6 @@ ALTER TABLE `rule`
 --
 ALTER TABLE `solusi`
   ADD CONSTRAINT `solusi_ibfk_1` FOREIGN KEY (`idpenyakit`) REFERENCES `penyakit` (`idpenyakit`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Ketidakleluasaan untuk tabel `tamu`
---
-ALTER TABLE `tamu`
-  ADD CONSTRAINT `tamu_ibfk_1` FOREIGN KEY (`idpenyakit`) REFERENCES `penyakit` (`idpenyakit`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
