@@ -1,8 +1,8 @@
-<?php 
-    session_start();
-    require_once '../controller/relasi.php';
+<?php
+session_start();
+require_once '../controller/relasi.php';
 
-    $relasi = query("SELECT * FROM relasi_penyakit_gejala ORDER BY idpenyakit");
+$relasi = query("SELECT * FROM relasi_penyakit_gejala ORDER BY idpenyakit");
 ?>
 
 <html lang="en">
@@ -57,41 +57,44 @@
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
-                                        <th class="text-center" scope="col">No</th>
-                                        <th class="text-center" scope="col">Penyakit</th>
-                                        <th class="text-center" scope="col">Gejala</th>
-                                        <th class="text-center" scope="col">AKSI</th>
+                                        <th class="text-center" scope="col">NO</th>
+                                        <th class="text-center" scope="col">PENYAKIT</th>
+                                        <th class="text-center" scope="col">GEJALA</th>
+                                        <th class="text-center" scope="col" style="width: 150px;">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
-                                        $i = 1;
-                                        foreach($relasi as $r) :
-                                            $idpenyakit = $r['idpenyakit'];
-                                            $idgejala = $r['idgejala'];
-                                            $nama_penyakit = query("SELECT * FROM penyakit WHERE idpenyakit = $idpenyakit")[0];
-                                            $nama_gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
-                                    ?>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($relasi as $r):
+                                        $idpenyakit = $r['idpenyakit'];
+                                        $idgejala = $r['idgejala'];
+                                        $nama_penyakit = query("SELECT * FROM penyakit WHERE idpenyakit = $idpenyakit")[0];
+                                        $nama_gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
+                                        ?>
                                         <tr>
                                             <td>
                                                 <?= $i; ?>
                                             </td>
                                             <td>
-                                                <?= $nama_penyakit['nama_penyakit']; ?> (<?= $nama_penyakit['kode_penyakit']; ?>)
+                                                <?= $nama_penyakit['nama_penyakit']; ?> (
+                                                <?= $nama_penyakit['kode_penyakit']; ?>)
                                             </td>
                                             <td>
-                                                <?= $nama_gejala['nama_gejala']; ?> (<?= $nama_gejala['kode_gejala']; ?>)
+                                                <?= $nama_gejala['nama_gejala']; ?> (
+                                                <?= $nama_gejala['kode_gejala']; ?>)
                                             </td>
                                             <td>
-                                                <a href="../edit/relasi.php?id=<?= enkripsi($r['idrelasi']); ?>">Edit</a> | <a href="#" class="delete bg-danger" id="delete"
-                                                        onclick="confirmDelete(<?= $r['idrelasi']; ?>)">
-                                                        Delete
-                                                    </a>
+                                                <a href="../edit/relasi.php?id=<?= enkripsi($r['idrelasi']); ?>">Edit</a> |
+                                                <a href="#" class="delete bg-danger" id="delete"
+                                                    onclick="confirmDelete(<?= $r['idrelasi']; ?>)">
+                                                    Delete
+                                                </a>
                                             </td>
                                         </tr>
-                                    <?php 
+                                        <?php
                                         $i++;
-                                        endforeach;
+                                    endforeach;
                                     ?>
                                 </tbody>
                             </table>

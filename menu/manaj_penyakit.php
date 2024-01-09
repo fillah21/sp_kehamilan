@@ -57,11 +57,11 @@ $data = query("SELECT * FROM penyakit ORDER BY CAST(SUBSTRING(kode_penyakit, 2) 
                             <table id="example" class="table table-hover text-center">
                                 <thead>
                                     <tr class="table-secondary">
-                                        <th class="text-center" scope="col">No</th>
-                                        <th class="text-center" scope="col">Kode</th>
-                                        <th class="text-center" scope="col">Nama Penyakit</th>
-                                        <th class="text-center" scope="col">Deskripsi</th>
-                                        <th class="text-center" scope="col" style="width: 150px;">Aksi</th>
+                                        <th class="text-center" scope="col">NO</th>
+                                        <th class="text-center" scope="col">KOKE</th>
+                                        <th class="text-center" scope="col">NAMA PENYAKIT</th>
+                                        <th class="text-center" scope="col">DESKRIPSI</th>
+                                        <th class="text-center" scope="col" style="width: 150px;">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>
