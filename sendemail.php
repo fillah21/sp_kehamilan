@@ -35,7 +35,7 @@ try {
 
     echo "
             <script>
-                alert('Berhasil kirim email, silahkan check email');
+                alert('Berhasil kirim email, silahkan cek email');
                 document.location.href='login.php';
             </script>
         ";

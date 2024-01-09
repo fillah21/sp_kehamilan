@@ -24,6 +24,16 @@ if (count($hasil) > 1) {
 } else {
     $nama_penyakit = $hasil[0];
 }
+
+foreach($hasil as $h) {
+    $data_penyakit = query("SELECT * FROM penyakit WHERE nama_penyakit = '$h'")[0];
+
+    $idpenyakit[] = $data_penyakit['idpenyakit'];
+}
+
+$idpeny = implode(", ", $idpenyakit);
+
+$data_relasi = query("SELECT DISTINCT idgejala FROM relasi_penyakit_gejala WHERE idpenyakit IN ($idpeny);");
 ?>
 
 <html lang="en">
@@ -89,15 +99,11 @@ if (count($hasil) > 1) {
                             <table class="table">
                                 <tbody>
                                     <?php
-                                    $i = 1;
-                                    foreach ($hasil as $h):
-                                        $data_penyakit = query("SELECT * FROM penyakit WHERE nama_penyakit = '$h'")[0];
-
-                                        $idpenyakit = $data_penyakit['idpenyakit'];
-                                        $data_relasi = query("SELECT * FROM relasi_penyakit_gejala WHERE idpenyakit = $idpenyakit"); foreach ($data_relasi as $dr):
+                                        $i = 1;
+                                        foreach ($data_relasi as $dr):
                                             $idgejala = $dr['idgejala'];
                                             $data_gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
-                                            ?>
+                                    ?>
                                             <tr>
                                                 <td scope="row">
                                                     <?= $i; ?>
@@ -106,10 +112,9 @@ if (count($hasil) > 1) {
                                                     <?= $data_gejala['nama_gejala']; ?>
                                                 </td>
                                             </tr>
-                                            <?php
+                                    <?php
                                             $i++;
                                         endforeach;
-                                    endforeach;
                                     ?>
                                 </tbody>
                             </table>
@@ -117,10 +122,13 @@ if (count($hasil) > 1) {
 
                         <?php foreach ($hasil as $hs):
                             $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
-                            ?>
+                            $nama_kecil = strtolower(str_replace(" ", "_", $dapen['nama_penyakit']));
+
+                            $presentase = $data[$nama_kecil] * 100;
+                        ?>
                             <div class="box2 mt-4 my-0">
                                 <label class="fw-bold">
-                                    <?= $hs; ?> (20%)
+                                    <?= $hs; ?> (<?= $presentase; ?>%)
                                 </label>
                             </div>
                             <div class="box2 my-0">

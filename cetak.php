@@ -13,6 +13,16 @@ $waktu_tes = strftime('%H:%M:%S | %d %B %Y', strtotime($data['tanggal']));
 $iduser = $data['iduser'];
 $data_user = query("SELECT * FROM user WHERE iduser = $iduser")[0];
 
+foreach($hasil as $h) {
+    $data_penyakit = query("SELECT * FROM penyakit WHERE nama_penyakit = '$h'")[0];
+
+    $idpenyakit[] = $data_penyakit['idpenyakit'];
+}
+
+$idpeny = implode(", ", $idpenyakit);
+
+$data_relasi = query("SELECT DISTINCT idgejala FROM relasi_penyakit_gejala WHERE idpenyakit IN ($idpeny);");
+
 use Dompdf\Dompdf;
 
 $dompdf = new Dompdf();
@@ -60,30 +70,23 @@ $html = '<!DOCTYPE html>
 $html .= $data_user['nama'] . '</h3>
 
                 <h4>Rincian Gejala Yang Dialami:</h4>
-                <table>';
+                <table>
+                    <tr>
+                        <td>
+                            <ul>';
 
 
-foreach ($hasil as $h) {
-    $data_penyakit = query("SELECT * FROM penyakit WHERE nama_penyakit = '$h'")[0];
+foreach ($data_relasi as $darel) {
+    $idgejala = $darel['idgejala'];
+    $data_gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
 
-    $idpenyakit = $data_penyakit['idpenyakit'];
-    $data_relasi = query("SELECT * FROM relasi_penyakit_gejala WHERE idpenyakit = $idpenyakit");
 
-    $html .= "<tr>
-                            <td>
-                                <ul>";
-
-    foreach ($data_relasi as $dr) {
-        $idgejala = $dr['idgejala'];
-        $data_gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
-        $html .= "<li>" . $data_gejala['nama_gejala'] . "</li>";
-    }
-
-    $html .= "</ul>
-                            </td>
-                        </tr>";
+    $html .= "<li>" . $data_gejala['nama_gejala'] . "</li>";
 }
-$html .= '
+
+                    $html .= '</ul>
+                        </td>
+                    </tr>
                 </table>
 
                 <h4>Penjabaran Hasil :</h4>
@@ -100,8 +103,11 @@ foreach ($hasil as $hs) {
     $deskripsi_penyakit = $dapen['deskripsi'];
     $data_solusi = query("SELECT * FROM solusi WHERE idpenyakit = $idpenyakit");
 
+    $nama_kecil = strtolower(str_replace(" ", "_", $dapen['nama_penyakit']));
+    $presentase = $data[$nama_kecil] * 100;
+
     $html .= "<tr>
-                            <td>" . "<b>" . strtoupper($dapen['nama_penyakit']) . "</b>" . '<br/>' . '<br/>' . $deskripsi_penyakit . "</td>
+                            <td>" . "<b>" . strtoupper($dapen['nama_penyakit']) . " (" . $presentase . "%)" . "</b>" . '<br/>' . '<br/>' . $deskripsi_penyakit . "</td>
                             <td>
                                 <ul>";
     foreach ($data_solusi as $dasol) {
