@@ -1,3 +1,30 @@
+<?php 
+    session_start();
+    require_once 'controller/user.php';
+    setcookie('SPKehamilan', '', time() - 3600);
+
+    if(isset($_GET['key'])) {
+        $email = dekripsi($_GET['key']);
+    
+        $result = mysqli_query($conn, "SELECT email FROM user WHERE email = '$email'");
+    
+        if (!mysqli_fetch_assoc($result)) {
+            $_SESSION["gagal"] = "Email tidak ditemukan";
+            echo "
+                <script>
+                    document.location.href='login.php';
+                </script>";
+            exit();
+        } else {
+            $data = query("SELECT * FROM user WHERE email = '$email'") [0];
+        }
+    } else {
+      echo "<script>
+                document.location.href='login.php';
+            </script>";
+    }
+?>
+
 <html lang="en">
 
 <head>
@@ -30,9 +57,10 @@
                 <hr class="mb-5" style="color: black; opacity: 1;">
                 <div class="m-5">
                     <form method="post" action="">
+                        <input type="hidden" name="iduser" value="<?= $data['iduser']; ?>">
                         <div class="mb-3">
                             <input type="text" style="border-color: black;" name="nama" class="form-control"
-                                placeholder="Nama">
+                                placeholder="Nama" value="<?= $data['nama']; ?>" disabled>
                         </div>
                         <div class="mb-3">
                             <input type="password" style="border-color: black;" name="password" class="form-control"
@@ -44,7 +72,7 @@
                         </div>
 
                         <div class="clik mt-4">
-                            <button class="btn btn-primary" type="submit" name="update_password">
+                            <button class="btn btn-primary" type="submit" name="submit">
                                 SUBMIT
                             </button>
                         </div>
@@ -63,3 +91,25 @@
 </body>
 
 </html>
+
+<?php 
+  if(isset($_POST['submit'])) {
+    if (update_password($_POST) > 0) {
+      $_SESSION["berhasil"] = "Ubah Password Berhasil!";
+      
+      echo "
+        <script>
+          document.location.href='login.php';
+        </script>
+        ";
+    } else {
+      $_SESSION["gagal"] = "Ubah Password Gagal!";
+
+      echo "
+          <script>
+            document.location.href='login.php';
+          </script>
+      ";
+      }
+  }
+?>

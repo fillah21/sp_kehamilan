@@ -1,4 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+
 <?php
+
+session_start();
+    require_once 'controller/main.php';
+
+    if(isset($_POST['email'])) {
+        $email = $_POST['email'];
+
+        $result = mysqli_query($conn, "SELECT email FROM user WHERE email = '$email'");
+
+        if (!mysqli_fetch_assoc($result)) {
+            $_SESSION["gagal"] = "Email tidak ditemukan";
+
+            echo "
+                <script>
+                    document.location.href='login.php';
+                </script>";
+            exit();
+        } else {
+            $data = query("SELECT email FROM user WHERE email = '$email'") [0];
+
+            $enkripsi_email = enkripsi($data['email']);
+        }
+    } else {
+        echo "<script>
+                document.location.href='login.php';
+              </script>";
+    }
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -17,7 +55,7 @@ try {
     $mail->Host = 'smtp.gmail.com'; //Set the SMTP server to send through
     $mail->SMTPAuth = true; //Enable SMTP authentication
     $mail->Username = 'triapujiastuti029@gmail.com'; //SMTP username
-    $mail->Password = 'bezeehtlifzqhzlf'; //SMTP password
+    $mail->Password = 'mamadas0209'; //SMTP password 
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //Enable implicit TLS encryption
     $mail->Port = 587; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -33,19 +71,21 @@ try {
 
     $mail->send();
 
+    $_SESSION["berhasil"] = "Berhasil kirim email, silahkan check email " . $data['email'];
+
     echo "
-            <script>
-                alert('Berhasil kirim email, silahkan cek email');
-                document.location.href='login.php';
-            </script>
-        ";
+        <script>
+            document.location.href='login.php';
+        </script>
+    ";
 } catch (Exception $e) {
+    $_SESSION["gagal"] = "Email gagal dikirim";
+
     echo "
-            <script>
-                alert('Email gagal dikirim');
-               
-            </script>
-        ";
+        <script>
+            document.location.href='login.php';
+        </script>
+    ";
 }
 
 ?>
