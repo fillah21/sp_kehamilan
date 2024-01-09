@@ -2,16 +2,24 @@
 require_once 'vendor/autoload.php'; // Lokasi file autoload composer
 require_once 'controller/hasil.php';
 
-$id = dekripsi($_GET['idhasil']);
+if(isset($_GET['idhasil'])) {
+    $id = dekripsi($_GET['idhasil']);
+    
+    $data = query("SELECT * FROM hasil WHERE idhasil = $id")[0];
+    $hasil = hasil($data);
+    $iduser = $data['iduser'];
+    $data_user = query("SELECT * FROM user WHERE iduser = $iduser")[0];
 
-$data = query("SELECT * FROM hasil WHERE idhasil = $id")[0];
-$hasil = hasil($data);
+} elseif(isset($_GET['idtamu'])) {
+    $id = dekripsi($_GET['idtamu']);
+    
+    $data = query("SELECT * FROM tamu WHERE idtamu = $id")[0];
+    $hasil = hasil($data);
+}
 
 $waktu_tes = strftime('%H:%M:%S | %d %B %Y', strtotime($data['tanggal']));
 // $hasil = hasil($data);
 
-$iduser = $data['iduser'];
-$data_user = query("SELECT * FROM user WHERE iduser = $iduser")[0];
 
 foreach($hasil as $h) {
     $data_penyakit = query("SELECT * FROM penyakit WHERE nama_penyakit = '$h'")[0];
@@ -67,9 +75,13 @@ $html = '<!DOCTYPE html>
             <body>
                 <h1 style="text-align: center;">LAPORAN HASIL TES</h1>
                 <h3 style="text-align: center;">';
-$html .= $data_user['nama'] . '</h3>
+                if(isset($_GET['idhasil'])) {
+                    $html .= $data_user['nama'] . '</h3>';
+                } elseif(isset($_GET['idtamu'])) {
+                    $html .= $data['nama'] . '</h3>';
+                }
 
-                <h4>Rincian Gejala Yang Dialami:</h4>
+                $html .= '<h4>Rincian Gejala Yang Dialami:</h4>
                 <table>
                     <tr>
                         <td>

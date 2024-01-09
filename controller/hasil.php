@@ -124,6 +124,40 @@ function save($data, $id)
     return mysqli_affected_rows($conn);
 }
 
+function save_tamu($data)
+{
+    global $conn;
+    $usia_kandungan = $data['usia_kandungan'];
+    $nama = $data['nama'];
+
+    if ($nama == "") {
+        echo "<script>
+                        Swal.fire(
+                            'Gagal!',
+                            'Nama tidak boleh kosong',
+                            'error'
+                        )
+                    </script>";
+        exit();
+    }
+
+    $hasil = hitung($data);
+
+
+    $value = implode(", ", $hasil);
+
+    $query = "INSERT INTO tamu
+                    VALUES
+                    (NULL, '$nama', CURRENT_TIMESTAMP(), '$usia_kandungan', ";
+
+    $query .= $value . ")";
+
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
 function hasil($data)
 {
     $penyakit = query("SELECT * FROM penyakit");

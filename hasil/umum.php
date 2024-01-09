@@ -1,3 +1,37 @@
+<?php 
+require_once '../controller/hasil.php';
+
+if (isset($_GET['key'])) {
+    $nama_tamu = dekripsi($_GET['key']);
+    $data = query("SELECT * FROM tamu WHERE nama = '$nama_tamu'")[0];
+    
+    $hasil = hasil($data);
+} else {
+    echo "
+        <script>
+            document.location.href='../diagnosa/umum.php';
+        </script>
+    ";
+}
+$idhasil = enkripsi($data['idtamu']);
+
+if (count($hasil) > 1) {
+    $nama_penyakit = implode(", ", $hasil);
+} else {
+    $nama_penyakit = $hasil[0];
+}
+
+foreach($hasil as $h) {
+    $data_penyakit = query("SELECT * FROM penyakit WHERE nama_penyakit = '$h'")[0];
+
+    $idpenyakit[] = $data_penyakit['idpenyakit'];
+}
+
+$idpeny = implode(", ", $idpenyakit);
+
+$data_relasi = query("SELECT DISTINCT idgejala FROM relasi_penyakit_gejala WHERE idpenyakit IN ($idpeny);");
+?>
+
 <html lang="en">
 
 <head>
@@ -29,11 +63,6 @@
 
         <div class="main-container m-0">
             <div class="d-flex">
-                <!-- sidebar -->
-                <?php
-                require_once('../navbar/sidebar.php');
-                ?>
-                <!-- sidebar selesai -->
 
                 <!-- konten -->
                 <div class="contents px-3 py-3">
@@ -44,51 +73,90 @@
                             </h5>
                         </div>
 
-                        <h5 class="fw-bold mt-4 ms-5">Nama Pengguna (24 tahun)</h5>
+                        <h5 class="fw-bold mt-4 ms-5"><?= $nama_tamu; ?> (<?= $data['usia_kandungan']; ?> bulan)</h5>
 
                         <div class="box2 mt-3 text-center">
                             <label for="" class="fw-bold">Gejala</label>
                             <hr style="color: black; opacity: 1;">
                             <table class="table">
                                 <tbody>
-                                    <tr>
-                                        <td scope="row">1</td>
-                                        <td>Gejala Pertama</td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row">2</td>
-                                        <td>Gejala Kedua</td>
-                                    </tr>
-                                    <tr>
-                                        <td scope="row">3</td>
-                                        <td>Gejala Ketiga</td>
-                                    </tr>
+                                    <?php
+                                        $i = 1;
+                                        foreach ($data_relasi as $dr):
+                                            $idgejala = $dr['idgejala'];
+                                            $data_gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
+                                    ?>
+                                            <tr>
+                                                <td scope="row">
+                                                    <?= $i; ?>
+                                                </td>
+                                                <td>
+                                                    <?= $data_gejala['nama_gejala']; ?>
+                                                </td>
+                                            </tr>
+                                    <?php
+                                            $i++;
+                                        endforeach;
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="box2 my-0">
-                            <label class="fw-bold">Nama Penyakit</label>
-                        </div>
-                        <div class="box2 my-0">
-                            <label class="fw-medium">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo
-                                laudantium repudiandae reprehenderit quisquam maiores fugit blanditiis fuga nisi aperiam
-                                doloribus, qui modi. Ullam mollitia, temporibus porro fugiat officia pariatur
-                                laboriosam.</label>
-                        </div>
+
+                        <?php foreach ($hasil as $hs):
+                            $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
+                            $nama_kecil = strtolower(str_replace(" ", "_", $dapen['nama_penyakit']));
+
+                            $presentase = $data[$nama_kecil] * 100;
+                        ?>
+                            <div class="box2 mt-4 my-0">
+                                <label class="fw-bold">
+                                    <?= $hs; ?> (<?= $presentase; ?>%)
+                                </label>
+                            </div>
+                            <div class="box2 my-0">
+                                <label class="fw-medium">
+                                    <?= $dapen['deskripsi']; ?>
+                                </label>
+                            </div>
+                        <?php endforeach; ?>
 
                         <div class="mx-5 mt-3 mb-3">
-                            <h6 class="fw-bold">Solusi Penanganan :</h6>
-                            <span>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit porro explicabo
-                                doloribus qui numquam fugiat accusantium, eligendi est neque iusto rem eos perferendis
-                                enim, cupiditate odit sequi maxime aliquid temporibus.
-                            </span>
+                            <?php foreach ($hasil as $hs):
+                                $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
+                                $idpenyakit = $dapen['idpenyakit'];
+                                $data_solusi = query("SELECT * FROM solusi WHERE idpenyakit = $idpenyakit"); ?>
+
+                                <h6 class="fw-bold">Solusi Penanganan
+                                    <?= $hs; ?>:
+                                </h6>
+                                <ul>
+                                    <?php foreach ($data_solusi as $dasol): ?>
+                                        <li>
+                                            <?= $dasol['solusi']; ?>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+
+                            <?php endforeach; ?>
                         </div>
 
-                        <div class="text-center mb-4">
-                            <button type="button" class="btn btn-primary"
-                                style="border-radius: 15px; width: 150px;">Cetak</button>
+                        <div class="row mx-auto justify-content-center">
+                            <div class="text-center mb-4">
+                                <div class="col-sm-2">
+                                    <a class="text-decoration-none btn btn-primary"
+                                        href="../cetak.php?idtamu=<?= $idhasil; ?>" target="_blank">
+                                        <span><i class="bi bi-printer me-2"></i>CETAK HASIL</span>
+                                    </a>
+                                </div>
+
+                                <div class="col-sm-2 mt-3">
+                                    <a href="../login.php" class=" text-dark" type="button" style="background: none;">
+                                        Kembali ke Login
+                                    </a>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
                 <!-- konten selesai -->
