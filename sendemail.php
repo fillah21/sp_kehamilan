@@ -50,12 +50,12 @@ $mail = new PHPMailer(true);
 
 try {
     //Server settings
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER; //Enable verbose debug output
+    $mail->SMTPDebug = SMTP::DEBUG_OFF; //Enable verbose debug output
     $mail->isSMTP(); //Send using SMTP
     $mail->Host = 'smtp.gmail.com'; //Set the SMTP server to send through
     $mail->SMTPAuth = true; //Enable SMTP authentication
-    $mail->Username = 'triapujiastuti029@gmail.com'; //SMTP username
-    $mail->Password = 'mamadas0209'; //SMTP password 
+    $mail->Username = 'lauranzsiskaly@gmail.com'; //SMTP username
+    $mail->Password = 'afwksbtstiqnvswc'; //SMTP password 
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //Enable implicit TLS encryption
     $mail->Port = 587; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -71,7 +71,7 @@ try {
 
     $mail->send();
 
-    $_SESSION["berhasil"] = "Berhasil kirim email, silahkan check email " . $data['email'];
+    $_SESSION["berhasil"] = "Berhasil kirim email, silahkan cek email " . $data['email'];
 
     echo "
         <script>
