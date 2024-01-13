@@ -2,17 +2,17 @@
 require_once 'vendor/autoload.php'; // Lokasi file autoload composer
 require_once 'controller/hasil.php';
 
-if(isset($_GET['idhasil'])) {
+if (isset($_GET['idhasil'])) {
     $id = dekripsi($_GET['idhasil']);
-    
+
     $data = query("SELECT * FROM hasil WHERE idhasil = $id")[0];
     $hasil = hasil($data);
     $iduser = $data['iduser'];
     $data_user = query("SELECT * FROM user WHERE iduser = $iduser")[0];
 
-} elseif(isset($_GET['idtamu'])) {
+} elseif (isset($_GET['idtamu'])) {
     $id = dekripsi($_GET['idtamu']);
-    
+
     $data = query("SELECT * FROM tamu WHERE idtamu = $id")[0];
     $hasil = hasil($data);
 }
@@ -21,7 +21,7 @@ $waktu_tes = strftime('%H:%M:%S | %d %B %Y', strtotime($data['tanggal']));
 // $hasil = hasil($data);
 
 
-foreach($hasil as $h) {
+foreach ($hasil as $h) {
     $data_penyakit = query("SELECT * FROM penyakit WHERE nama_penyakit = '$h'")[0];
 
     $idpenyakit[] = $data_penyakit['idpenyakit'];
@@ -75,13 +75,13 @@ $html = '<!DOCTYPE html>
             <body>
                 <h1 style="text-align: center;">LAPORAN HASIL TES</h1>
                 <h3 style="text-align: center;">';
-                if(isset($_GET['idhasil'])) {
-                    $html .= $data_user['nama'] . '</h3>';
-                } elseif(isset($_GET['idtamu'])) {
-                    $html .= $data['nama'] . '</h3>';
-                }
+if (isset($_GET['idhasil'])) {
+    $html .= $data_user['nama'] . '</h3>';
+} elseif (isset($_GET['idtamu'])) {
+    $html .= $data['nama'] . '</h3>';
+}
 
-                $html .= '<h4>Rincian Gejala Yang Dialami:</h4>
+$html .= '<h4>Rincian Gejala Yang Dialami:</h4>
                 <table>
                     <tr>
                         <td>
@@ -96,7 +96,7 @@ foreach ($data_relasi as $darel) {
     $html .= "<li>" . $data_gejala['nama_gejala'] . "</li>";
 }
 
-                    $html .= '</ul>
+$html .= '</ul>
                         </td>
                     </tr>
                 </table>
@@ -105,7 +105,6 @@ foreach ($data_relasi as $darel) {
                 <table>
                     <tr>
                         <th>Penyakit</th>
-                        <th>Solusi</th>
                     </tr>';
 
 
@@ -113,26 +112,33 @@ foreach ($hasil as $hs) {
     $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
     $idpenyakit = $dapen['idpenyakit'];
     $deskripsi_penyakit = $dapen['deskripsi'];
-    $data_solusi = query("SELECT * FROM solusi WHERE idpenyakit = $idpenyakit");
 
     $nama_kecil = strtolower(str_replace(" ", "_", $dapen['nama_penyakit']));
     $presentase = $data[$nama_kecil] * 100;
 
     $html .= "<tr>
                             <td>" . "<b>" . strtoupper($dapen['nama_penyakit']) . " (" . $presentase . "%)" . "</b>" . '<br/>' . '<br/>' . $deskripsi_penyakit . "</td>
-                            <td>
-                                <ul>";
+                        </tr>";
+}
+$html .= '
+                </table>';
+
+foreach ($hasil as $hs) {
+    $dapen = query("SELECT * FROM penyakit WHERE nama_penyakit = '$hs'")[0];
+    $idpenyakit = $dapen['idpenyakit'];
+    $data_solusi = query("SELECT * FROM solusi WHERE idpenyakit = $idpenyakit");
+
+    $html .= "<h4>Solusi Penyakit " . strtoupper($dapen['nama_penyakit']) . " </h4>
+                <ul>";
+
     foreach ($data_solusi as $dasol) {
         $html .= "<li>" . $dasol['solusi'] . "</li>";
     }
 
-    $html .= "</ul>
-                            </td>
-                        </tr>";
+    $html .= "</ul>";
 }
-$html .= '
-                </table>
-            </body>
+
+$html .= '</body>
             </html>';
 
 $dompdf->loadHtml($html);

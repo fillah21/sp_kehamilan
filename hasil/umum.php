@@ -1,10 +1,10 @@
-<?php 
+<?php
 require_once '../controller/hasil.php';
 
 if (isset($_GET['key'])) {
     $nama_tamu = dekripsi($_GET['key']);
     $data = query("SELECT * FROM tamu WHERE nama = '$nama_tamu'")[0];
-    
+
     $hasil = hasil($data);
 } else {
     echo "
@@ -21,7 +21,7 @@ if (count($hasil) > 1) {
     $nama_penyakit = $hasil[0];
 }
 
-foreach($hasil as $h) {
+foreach ($hasil as $h) {
     $data_penyakit = query("SELECT * FROM penyakit WHERE nama_penyakit = '$h'")[0];
 
     $idpenyakit[] = $data_penyakit['idpenyakit'];
@@ -73,7 +73,10 @@ $data_relasi = query("SELECT DISTINCT idgejala FROM relasi_penyakit_gejala WHERE
                             </h5>
                         </div>
 
-                        <h5 class="fw-bold mt-4 ms-5"><?= $nama_tamu; ?> (<?= $data['usia_kandungan']; ?> bulan)</h5>
+                        <h5 class="fw-bold mt-4 ms-5">
+                            <?= $nama_tamu; ?> (
+                            <?= $data['usia_kandungan']; ?> bulan)
+                        </h5>
 
                         <div class="box2 mt-3 text-center">
                             <label for="" class="fw-bold">Gejala</label>
@@ -81,22 +84,22 @@ $data_relasi = query("SELECT DISTINCT idgejala FROM relasi_penyakit_gejala WHERE
                             <table class="table">
                                 <tbody>
                                     <?php
-                                        $i = 1;
-                                        foreach ($data_relasi as $dr):
-                                            $idgejala = $dr['idgejala'];
-                                            $data_gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
-                                    ?>
-                                            <tr>
-                                                <td scope="row">
-                                                    <?= $i; ?>
-                                                </td>
-                                                <td>
-                                                    <?= $data_gejala['nama_gejala']; ?>
-                                                </td>
-                                            </tr>
-                                    <?php
-                                            $i++;
-                                        endforeach;
+                                    $i = 1;
+                                    foreach ($data_relasi as $dr):
+                                        $idgejala = $dr['idgejala'];
+                                        $data_gejala = query("SELECT * FROM gejala WHERE idgejala = $idgejala")[0];
+                                        ?>
+                                        <tr>
+                                            <td scope="row">
+                                                <?= $i; ?>
+                                            </td>
+                                            <td>
+                                                <?= $data_gejala['nama_gejala']; ?>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        $i++;
+                                    endforeach;
                                     ?>
                                 </tbody>
                             </table>
@@ -107,10 +110,11 @@ $data_relasi = query("SELECT DISTINCT idgejala FROM relasi_penyakit_gejala WHERE
                             $nama_kecil = strtolower(str_replace(" ", "_", $dapen['nama_penyakit']));
 
                             $presentase = $data[$nama_kecil] * 100;
-                        ?>
+                            ?>
                             <div class="box2 mt-4 my-0">
                                 <label class="fw-bold">
-                                    <?= $hs; ?> (<?= $presentase; ?>%)
+                                    <?= $hs; ?> (
+                                    <?= $presentase; ?>%)
                                 </label>
                             </div>
                             <div class="box2 my-0">
@@ -140,20 +144,18 @@ $data_relasi = query("SELECT DISTINCT idgejala FROM relasi_penyakit_gejala WHERE
                             <?php endforeach; ?>
                         </div>
 
-                        <div class="row mx-auto justify-content-center">
-                            <div class="text-center mb-4">
-                                <div class="col-sm-2">
-                                    <a class="text-decoration-none btn btn-primary"
-                                        href="../cetak.php?idtamu=<?= $idhasil; ?>" target="_blank">
-                                        <span><i class="bi bi-printer me-2"></i>CETAK HASIL</span>
-                                    </a>
-                                </div>
 
-                                <div class="col-sm-2 mt-3">
-                                    <a href="../login.php" class=" text-dark" type="button" style="background: none;">
-                                        Kembali ke Login
-                                    </a>
-                                </div>
+                        <div class="row justify-content-end mb-4">
+                            <div class="col-sm-2">
+                                <a href="../login.php" class=" text-dark" type="button" style="background: none;">
+                                    Kembali ke Login
+                                </a>
+                            </div>
+                            <div class="col-sm-2">
+                                <a class="text-decoration-none btn btn-primary"
+                                    href="../cetak.php?idtamu=<?= $idhasil; ?>" target="_blank">
+                                    <span><i class="bi bi-printer me-2"></i>CETAK HASIL</span>
+                                </a>
                             </div>
                         </div>
 

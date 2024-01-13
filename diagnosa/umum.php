@@ -1,7 +1,7 @@
-<?php 
-    require_once '../controller/hasil.php';
+<?php
+require_once '../controller/hasil.php';
 
-    $gejala = query("SELECT * FROM gejala");
+$gejala = query("SELECT * FROM gejala");
 ?>
 
 <html lang="en">
@@ -45,7 +45,7 @@
                             </h5>
                         </div>
 
-                        <form method="post" action="">
+                        <form method="post" action="" id="diagnosisForm">
                             <div class="mb-3 mt-4 row ms-5">
                                 <label for="inputName" class="col-sm-2 col-form-label">Nama :</label>
                                 <div class="col-sm-6">
@@ -61,9 +61,10 @@
 
                             <h5 class=" fw-bold ms-5 mt-4">Pilih Gejala</h5>
                             <div class="box1 mx-5">
-                                <?php foreach($gejala as $g) : ?>
+                                <?php foreach ($gejala as $g): ?>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="1" id="<?= $g['kode_gejala']; ?>" name="<?= $g['kode_gejala']; ?>">
+                                        <input class="form-check-input" type="checkbox" value="1"
+                                            id="<?= $g['kode_gejala']; ?>" name="<?= $g['kode_gejala']; ?>">
                                         <label class="form-check-label" for="<?= $g['kode_gejala']; ?>">
                                             <?= $g['nama_gejala']; ?>
                                         </label>
@@ -99,24 +100,56 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- ... -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var usiaInput = document.getElementById('inputUsia');
+            var diagnosisForm = document.getElementById('diagnosisForm');
+
+            usiaInput.addEventListener('input', function () {
+                var usiaValue = parseInt(usiaInput.value);
+                var gejalaCheckboxes = document.querySelectorAll('.form-check-input');
+
+                // Reset checkbox status
+                gejalaCheckboxes.forEach(function (checkbox) {
+                    checkbox.checked = false;
+                });
+
+                // Check specific checkbox based on usia
+                if (usiaValue >= 7) {
+                    var gejalaCheckbox = document.getElementById('G7');
+                    if (gejalaCheckbox) {
+                        gejalaCheckbox.checked = true;
+                    }
+                }
+            });
+
+            diagnosisForm.addEventListener('submit', function (event) {
+
+            });
+        });
+    </script>
+    <!-- ... -->
+
 </body>
 
 </html>
 
-<?php 
-    if(isset($_POST['submit'])) {
-        if (save_tamu($_POST) > 0) {
-            echo "
+<?php
+if (isset($_POST['submit'])) {
+    if (save_tamu($_POST) > 0) {
+        echo "
                 <script>
                   document.location.href='../hasil/umum.php?key= . " . enkripsi($_POST['nama']) . "';
                 </script>
             ";
-        } else {
-            echo "
+    } else {
+        echo "
                 <script>
                   document.location.href='umum.php';
                 </script>
             ";
-        }
     }
+}
 ?>

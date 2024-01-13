@@ -54,7 +54,10 @@ session_start();
 
                 <!-- konten -->
                 <div class="contents px-3 py-3 text-center justify-content-center">
-                    <h4 class="text-dark text-center"><?= $user['nama']; ?></h4>
+                    <h4 class="text-dark text-center">
+                        <?= $user['nama']; ?>
+                    </h4>
+                    <img src="../image/bumil1.png" style="width: 80%" alt="Sistem Pakar Penyakit Ibu Hamil">
                 </div>
                 <!-- konten selesai -->
             </div>
