@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Waktu pembuatan: 09 Jan 2024 pada 10.54
--- Versi server: 10.4.22-MariaDB
--- Versi PHP: 8.0.15
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 13 Jan 2024 pada 10.07
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `gejala` (
   `idgejala` int(11) NOT NULL,
   `kode_gejala` varchar(45) NOT NULL,
   `nama_gejala` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `gejala`
@@ -62,7 +62,8 @@ INSERT INTO `gejala` (`idgejala`, `kode_gejala`, `nama_gejala`) VALUES
 (22, 'G22', 'Sesak nafas'),
 (23, 'G23', 'Tidak ada tanda-tandanya janin'),
 (24, 'G24', 'Sakit kepala'),
-(25, 'G25', 'Detak jantung tidak teratur');
+(25, 'G25', 'Detak jantung tidak teratur'),
+(28, 'G26', 'gumoh');
 
 -- --------------------------------------------------------
 
@@ -80,7 +81,7 @@ CREATE TABLE `hasil` (
   `hiperemesis_gravidarum` double DEFAULT 0,
   `mola_hidatidosa` double DEFAULT 0,
   `anemia` double DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `hasil`
@@ -89,7 +90,19 @@ CREATE TABLE `hasil` (
 INSERT INTO `hasil` (`idhasil`, `iduser`, `tanggal`, `usia_kandungan`, `preeklampsia`, `kehamilan_etopik`, `hiperemesis_gravidarum`, `mola_hidatidosa`, `anemia`) VALUES
 (1, 1, '2024-01-08 13:40:02', 0, 0.45, 0.8, 0.72, 0.59, 0.68),
 (2, 1, '2024-01-08 14:16:44', 5, 0.45, 0.52, 0.54, 0.54, 0.5),
-(3, 2, '2024-01-08 15:38:23', 8, 0.5, 0.67, 0.62, 0.75, 0.61);
+(3, 2, '2024-01-08 15:38:23', 8, 0.5, 0.67, 0.62, 0.75, 0.61),
+(4, 4, '2024-01-09 11:57:54', 4, 0.5, 0, 0.69, 0, 0.66),
+(5, 3, '2024-01-13 04:00:55', 0, 0.5, 0.52, 0.7, 0, 0.5),
+(6, 2, '2024-01-13 04:07:28', 7, 0.5, 0, 0.5, 0.59, 0),
+(7, 3, '2024-01-13 07:08:56', 8, 0.5, 0.8, 0.8, 0.75, 0.8),
+(8, 3, '2024-01-13 07:09:19', 9, 0.5, 0.8, 0.8, 0.66, 0),
+(9, 1, '2024-01-13 07:10:14', 8, 0, 0, 0.8, 0.36, 0.71),
+(10, 1, '2024-01-13 07:11:15', 8, 0, 0.8, 0.73, 0.8, 0.5),
+(11, 1, '2024-01-13 07:12:11', 7, 0.43, 0.6, 0.68, 0, 0.3),
+(12, 4, '2024-01-13 07:17:27', 7, 0.5, 0, 0.8, 0.4, 0),
+(13, 4, '2024-01-13 07:18:18', 8, 0.5, 0, 0.63, 0, 0.6),
+(14, 3, '2024-01-13 07:22:03', 8, 0.45, 0.4, 0.3, 0, 0.5),
+(15, 4, '2024-01-13 07:38:08', 4, 0.5, 0, 0.61, 0.59, 0.57);
 
 -- --------------------------------------------------------
 
@@ -102,7 +115,7 @@ CREATE TABLE `penyakit` (
   `kode_penyakit` varchar(45) NOT NULL,
   `nama_penyakit` varchar(50) NOT NULL,
   `deskripsi` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `penyakit`
@@ -125,7 +138,7 @@ CREATE TABLE `relasi_penyakit_gejala` (
   `idrelasi` int(11) NOT NULL,
   `idgejala` int(11) NOT NULL,
   `idpenyakit` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `relasi_penyakit_gejala`
@@ -177,7 +190,7 @@ CREATE TABLE `rule` (
   `idrule` int(11) NOT NULL,
   `idgejala` int(11) NOT NULL,
   `nilai` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `rule`
@@ -220,7 +233,7 @@ CREATE TABLE `solusi` (
   `idsolusi` int(11) NOT NULL,
   `idpenyakit` int(11) NOT NULL,
   `solusi` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `solusi`
@@ -267,7 +280,19 @@ CREATE TABLE `tamu` (
   `hiperemesis_gravidarum` double DEFAULT 0,
   `mola_hidatidosa` double DEFAULT 0,
   `anemia` double DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tamu`
+--
+
+INSERT INTO `tamu` (`idtamu`, `nama`, `tanggal`, `usia_kandungan`, `preeklampsia`, `kehamilan_etopik`, `hiperemesis_gravidarum`, `mola_hidatidosa`, `anemia`) VALUES
+(1, 'Alisa', '2024-01-13 04:08:36', 8, 0.43, 0, 0.69, 0.58, 0.61),
+(2, 'Maryam S', '2024-01-13 06:47:54', 9, 0.6, 0.6, 0.3, 0, 0),
+(3, 'Lala', '2024-01-13 06:48:38', 8, 0.6, 0.71, 0.75, 0.8, 0.5),
+(4, 'Lala', '2024-01-13 06:49:30', 8, 0.54, 0.6, 0.5, 0, 0.6),
+(5, 'Nadya', '2024-01-13 07:13:43', 7, 0.6, 0.6, 0, 0.7, 0.6),
+(6, 'Tria', '2024-01-13 07:36:17', 7, 0.5, 0.4, 0.75, 0.3, 0.8);
 
 -- --------------------------------------------------------
 
@@ -282,15 +307,19 @@ CREATE TABLE `user` (
   `nama` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `level` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `user`
 --
 
 INSERT INTO `user` (`iduser`, `username`, `password`, `nama`, `email`, `level`) VALUES
-(1, 'fillah21', '$2y$10$I57/OgHi0gLUjFd6g.cKIe6TnO8/Sba.ASNaC77VVP/4llm4JbLV6', 'Fillah Zaki Alhaqi', 'fillah.alhaqi11@gmail.com', 'Admin'),
-(2, 'user', '$2y$10$I4ewL6YPSU90O4WwA.i3PuKL5kSXOOBvzuBjW5ONWVIC9Wt3Jal9K', 'User App Edit', 'user@gmail.com', 'User');
+(1, 'susan', '$2y$10$aCVepaZFbWEdO0LGLN84h.2C0H3MezwtBNXlzzBbsaBMSCg6kZqfa', 'Susan', 'susan@gmail.com', 'Admin'),
+(2, 'user', '$2y$10$Dxlu0EZkFUCF.rsMMUpTseqywtducEZ8YkceQrH2Gqo3IEjUc7ch.', 'User App Edit', 'user@gmail.com', 'User'),
+(3, 'dm', '$2y$10$VSJXsaXZz97DXDViP2w6Nu0o/F.nSRT/bLeTttNx0xPWrzKaY/gn2', 'Admin', 'triapujiastuti029@gmail.com', 'Admin'),
+(4, 'userrr1', '$2y$10$UdLgpByCUVumDC3mzSjluOhJuEoh9KpT5SAF49qMLsfi4xGiYBSiu', 'userrr', 'user2@gmail.com', 'User'),
+(5, 'anu', '$2y$10$WrI4v.P1QISCWvtNC0sgv.dQjPPYqiLUceILMKoTwJEnbR4SkzZ6K', 'Si Anu', 'anusabdk@bksda.com', 'User'),
+(6, 'ens', '$2y$10$xthuVt4awwfsSQ7APCYyIuVuaNUBGBfd0SNiMBkB.fSWqgJsYJsr6', 'Eka Nurseva', 'ekanursevas@gmail.com', 'User');
 
 --
 -- Indexes for dumped tables
@@ -357,49 +386,49 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `gejala`
 --
 ALTER TABLE `gejala`
-  MODIFY `idgejala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `idgejala` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT untuk tabel `hasil`
 --
 ALTER TABLE `hasil`
-  MODIFY `idhasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idhasil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `penyakit`
 --
 ALTER TABLE `penyakit`
-  MODIFY `idpenyakit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idpenyakit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `relasi_penyakit_gejala`
 --
 ALTER TABLE `relasi_penyakit_gejala`
-  MODIFY `idrelasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `idrelasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT untuk tabel `rule`
 --
 ALTER TABLE `rule`
-  MODIFY `idrule` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `idrule` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT untuk tabel `solusi`
 --
 ALTER TABLE `solusi`
-  MODIFY `idsolusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `idsolusi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT untuk tabel `tamu`
 --
 ALTER TABLE `tamu`
-  MODIFY `idtamu` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idtamu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `iduser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
