@@ -3,7 +3,7 @@ require_once '../controller/hasil.php';
 
 if (isset($_GET['key'])) {
     $nama_tamu = dekripsi($_GET['key']);
-    $data = query("SELECT * FROM tamu WHERE nama = '$nama_tamu'")[0];
+    $data = query("SELECT * FROM tamu WHERE nama = '$nama_tamu' AND idtamu = (SELECT MAX(idtamu) FROM tamu WHERE nama = '$nama_tamu')")[0];
 
     $hasil = hasil($data);
 } else {
